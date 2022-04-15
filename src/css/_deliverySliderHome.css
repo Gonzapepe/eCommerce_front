@@ -1,0 +1,21 @@
+.deliverySlider {
+    --slider-height-percentage: 40%;
+    --slider-transition-duration: 770ms;
+    --organic-arrow-thickness: 4px;
+    --organic-arrow-border-radius: 5px;
+    --organic-arrow-height: 40px;
+    --organic-arrow-color: #538bd5;
+    --control-button-width: 10%;
+    --control-button-height: 25%;
+    --control-button-background: transparent;
+    --control-bullet-color: transparent;
+    --control-bullet-active-color: transparent;
+    --loader-bar-color: #851515;
+    --loader-bar-height: 6px;
+    position: absolute;
+}
+
+
+.awssld__content {
+    background: none !important;
+}
