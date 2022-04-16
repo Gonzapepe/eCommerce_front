@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-import Product from "../layouts/products/Product";
-import Header from "../layouts/global/Header";
-import Subcategories from "../layouts/subcategories/Subcategories";
-import { useGetProductsQuery } from "../api/products/products";
-import { useGetSubcategoriesProductsQuery } from "../api/subcategories/subcategory";
+import Product from "../../layouts/products/Product";
+import Header from "../../layouts/global/Header";
+import Subcategories from "../../layouts/subcategories/Subcategories";
+import { useGetProductsQuery } from "../../api/products/products";
+import { useGetSubcategoriesProductsQuery } from "../../api/subcategories/subcategory";
 
 const Products = () => {
   const dispatch = useDispatch();

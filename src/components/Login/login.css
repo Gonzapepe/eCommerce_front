@@ -1,0 +1,6 @@
+.ant-form > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > input {
+    border-radius: 0.75rem;
+}
+.ant-form > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content {
+    border-radius: 0.75rem;
+}

@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useGetProductQuery } from "../api/products/products";
+import { useGetProductQuery } from "../../api/products/products";
 import { useParams } from "react-router-dom";
-import { getProduct } from "../redux/reducers/products";
+import { getProduct } from "../../redux/reducers/products";
 import AwesomeSlider from "react-awesome-slider";
 import "react-awesome-slider/dist/styles.css";
 import "./productStyle.css";

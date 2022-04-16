@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 
 import { useSelector } from "react-redux";
-import { selectUser } from "../redux/reducers/user";
-import Slider from "../layouts/home/Slider";
+import { selectUser } from "../../redux/reducers/user";
+import Slider from "../../layouts/home/Slider";
 
 const Home = () => {
   const token = sessionStorage.getItem("token");

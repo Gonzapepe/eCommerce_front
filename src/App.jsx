@@ -4,16 +4,17 @@ import React, { useContext, useEffect, useState } from "react";
 import { Routes, Route, Link, Navigate } from "react-router-dom";
 
 /* Components */
-import Home from "./components/Home";
-import LogIn from "./components/LogIn";
-import SignUp from "./components/SignUp";
-import Dashboard from "./components/Dashboard";
-import Products from "./components/Products";
+import Home from "./components/Home/Home";
+import LogIn from "./components/Login/LogIn";
+import SignUp from "./components/Signup/SignUp";
+import Dashboard from "./components/Dashboard/Dashboard";
+import Products from "./components/Products/Products";
 import Auth from "./Auth";
 import Payment from "./layouts/payment/payment";
 import Feedback from "./layouts/payment/feedback";
 import Header from "./layouts/global/Header";
-import Product from "./components/Product";
+import Product from "./components/Product/Product";
+import "./index.css";
 
 // Cookies
 import Cookies from "js-cookie";

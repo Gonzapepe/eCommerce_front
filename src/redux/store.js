@@ -9,7 +9,7 @@ const store = configureStore({
   reducer,
 
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(
+    getDefaultMiddleware({ serializableCheck: false }).concat(
       productsService.middleware,
       subcategoriesService.middleware
     ),
