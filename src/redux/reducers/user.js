@@ -4,6 +4,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 const LOGIN_URL = "http://localhost:4000/v1/auth/login";
+const REGISTER_URL = "http://localhost:4000/v1/auth/register";
 
 export const postLogin = createAsyncThunk(
   "user/postLogin",
@@ -24,7 +25,9 @@ export const postRegister = createAsyncThunk(
   async (initialRegister) => {
     try {
       // aca van los datos que se mandan al postman
-      // const {  }
+      // const { name, surname, email, password, confirmPassword, phone } = initialRegister
+      const response = await axios.post(REGISTER_URL, initialRegister);
+      return response.data.data;
     } catch (err) {
       return err;
     }
