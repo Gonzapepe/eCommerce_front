@@ -27,6 +27,7 @@ export const postRegister = createAsyncThunk(
       // aca van los datos que se mandan al postman
       // const { name, surname, email, password, confirmPassword, phone } = initialRegister
       const response = await axios.post(REGISTER_URL, initialRegister);
+      console.log("RESPUESTA DEL REGISTER: ", response.data.errors);
       return response.data.data;
     } catch (err) {
       return err;
@@ -38,6 +39,7 @@ const userSlice = createSlice({
   name: "user",
 
   initialState: {
+    userCreated: null,
     token: null,
     isLoading: false,
     errors: [],
@@ -59,6 +61,22 @@ const userSlice = createSlice({
       }
     },
     [postLogin.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.errors = action.payload;
+    },
+    [postRegister.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [postRegister.fulfilled]: (state, action) => {
+      console.log("PAYLOAD REGISTER: ", action.payload);
+      state.isLoading = false;
+      if (action.payload.response.data) {
+        state.errors = action.payload.response.data.errorsValidation;
+      } else {
+        state.userCreated = action.payload;
+      }
+    },
+    [postRegister.rejected]: (state, action) => {
       state.isLoading = false;
       state.errors = action.payload;
     },

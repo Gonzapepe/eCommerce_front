@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect } from "react";
 // Redux toolkit
 import { useDispatch, useSelector } from "react-redux";
 import { postRegister } from "../../redux/reducers/user";
+import { Link } from "react-router-dom";
 
 import { useNavigate } from "react-router-dom";
 
@@ -10,8 +11,23 @@ const SignUp = () => {
   const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({});
+  const [formErrors, setFormErrors] = useState({});
   const navigate = useNavigate();
   const formRef = useRef();
+  const { errors, userCreated } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    console.log("ERRORES: ", errors);
+    errors.map((error) => {
+      if (error.email) {
+        console.log("ERRORRES EMAIL: ", error);
+      }
+    });
+  }, [errors]);
+
+  useEffect(() => {
+    console.log("USUARIO CREADO: ", userCreated);
+  }, [userCreated]);
 
   const handleChange = ({ target: { name, value } }) => {
     setFormData((values) => {
@@ -19,44 +35,17 @@ const SignUp = () => {
     });
   };
 
-  const handleSubmit = async () => {
-    const phoneRegex = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/;
-    const validatedPhone = phoneRegex.test(formData.phone);
-    if (formData.email.trim() === "") {
-      console.log("Email invalido");
-      return;
-    } else if (formData.name.trim() === "") {
-      console.log("Nombre inválido");
-      return;
-    } else if (formData.surname.trim() === "") {
-      console.log("Apellido inválido");
-      return;
-    } else if (formData.phone.trim() === "" || validatedPhone === false) {
-      console.log("Número de teléfono inválido");
-      return;
-    } else if (formData.password.trim() === "") {
-      console.log("Por favor ingrese una contraseña");
-      return;
-    } else if (formData.password.length <= 6) {
-      console.log("La contraseña tiene que tener mas de 6 caracteres");
-      return;
-    } else if (formData.confirmPassword.trim() === "") {
-      console.log("Confirmar contraseña inválido");
-      return;
-    } else if (formData.confirmPassword !== formData.password) {
-      console.log("Contraseña y confirmar contraseña deben ser iguales");
-      return;
-    } else {
-      dispatch(postRegister(formData));
-      formRef.current.resetFields();
-      navigate("/log-in");
-    }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    dispatch(postRegister(formData));
+    formRef.current.resetFields();
+    navigate("/log-in");
   };
 
   return (
     <div className="w-screen h-screen overflow-hidden bg-slate-300">
-      <div className="max-w-md w-full absolute top-10 left-1/3 rounded overflow-hidden shadow-lg bg-white mx-auto p-10 ">
-        <form className="flex flex-col" ref={formRef}>
+      <div className="max-w-md w-full absolute top-10 left-1/3 rounded overflow-hidden shadow-lg bg-white mx-auto pt-10 pl-10 pr-10 pb-5">
+        <form className="flex flex-col" ref={formRef} onSubmit={handleSubmit}>
           <div className="mb-10">
             <h3 className="text-center"> REGISTRARSE </h3>
           </div>
@@ -77,6 +66,15 @@ const SignUp = () => {
               >
                 Nombre
               </label>
+              {/* ERRORES NOMBRE */}
+              <div>
+                {errors.length > 0 &&
+                  errors.map((error) => {
+                    if (error.name) {
+                      return <div className="text-red-600"> {error.name} </div>;
+                    }
+                  })}
+              </div>
             </div>
             <div className="relative">
               <input
@@ -93,10 +91,20 @@ const SignUp = () => {
               >
                 Apellido
               </label>
+              <div>
+                {errors.length > 0 &&
+                  errors.map((error) => {
+                    if (error.surname) {
+                      return (
+                        <div className="text-red-600"> {error.surname} </div>
+                      );
+                    }
+                  })}
+              </div>
             </div>
           </div>
           {/* EMAIL */}
-          <div className="relative mt-10 ">
+          <div className="relative mt-5 ">
             <input
               id="email"
               type="text"
@@ -111,9 +119,18 @@ const SignUp = () => {
             >
               Email
             </label>
+            {/* ERRORES DE EMAIL */}
+            <div>
+              {errors.length > 0 &&
+                errors.map((error) => {
+                  if (error.email) {
+                    return <div className="text-red-600">{error.email}</div>;
+                  }
+                })}
+            </div>
           </div>
           {/* TELÉFONO */}
-          <div className="relative mt-10 ">
+          <div className="relative mt-5 ">
             <input
               id="telefono"
               type="text"
@@ -128,9 +145,18 @@ const SignUp = () => {
             >
               Teléfono
             </label>
+            {/* ERRORES TELÉFONO */}
+            <div>
+              {errors.length > 0 &&
+                errors.map((error) => {
+                  if (error.phone) {
+                    return <div className="text-red-600"> {error.phone} </div>;
+                  }
+                })}
+            </div>
           </div>
           {/* CONTRASEÑA */}
-          <div className="relative mt-10 ">
+          <div className="relative mt-5 ">
             <input
               id="password"
               type="password"
@@ -145,9 +171,20 @@ const SignUp = () => {
             >
               Contraseña
             </label>
-            {/* CONFIRMAR CONTRASEÑA */}
+            {/* ERRORES CONTRASEÑA */}
+            <div>
+              {errors.length > 0 &&
+                errors.map((error) => {
+                  if (error.password) {
+                    return (
+                      <div className="text-red-600"> {error.password} </div>
+                    );
+                  }
+                })}
+            </div>
           </div>
-          <div className="relative mt-10 ">
+          {/* CONFIRMAR CONTRASEÑA */}
+          <div className="relative mt-5 ">
             <input
               id="confirmPassword"
               type="password"
@@ -162,15 +199,35 @@ const SignUp = () => {
             >
               Confirmar contraseña
             </label>
+            {/* ERRORES CONFIRMAR CONTRASEÑA  */}
+            <div>
+              {errors.length > 0 &&
+                errors.map((error) => {
+                  if (error.passwordConfirm) {
+                    return (
+                      <div className="text-red-600">
+                        {" "}
+                        {error.passwordConfirm}{" "}
+                      </div>
+                    );
+                  }
+                })}
+            </div>
           </div>
           {/* BOTON */}
           <div className="text-center">
             <button
               className="p-2 bg-blue-600 text-white font-semibold mt-5 "
               type="submit"
+              onClick={(e) => handleSubmit(e)}
             >
               Registrarme
             </button>
+          </div>
+          <div className="mt-5">
+            <p>
+              ¿Ya tenés cuenta? <Link to="/log-in">Inicia sesión</Link>{" "}
+            </p>
           </div>
         </form>
       </div>
