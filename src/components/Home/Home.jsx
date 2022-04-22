@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { useSelector } from "react-redux";
-import { selectUser } from "../../redux/reducers/user";
+import { selectUser } from "../../redux/reducers/register";
 import Slider from "../../layouts/home/Slider";
 
 const Home = () => {

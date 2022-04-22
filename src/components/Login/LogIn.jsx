@@ -1,39 +1,23 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
 // RTK
 import { useDispatch, useSelector } from "react-redux";
-import { postLogin } from "../../redux/reducers/user";
+import { postLogin } from "../../redux/reducers/login";
+// React-router-dom
+import { Link } from "react-router-dom";
 // React Router
 import { useNavigate } from "react-router-dom";
-// Antd
-import { Form, Input, Button, Checkbox, Alert } from "antd";
 import Auth from "../../Auth";
-import "antd/dist/antd.css";
 import "./login.css";
-
-// Usar Wrapper y Labelcol para alinear los inputs y los label col
-// info: https://ant.design/components/form/
-const formItemLayout = {
-  labelCol: {
-    xs: { span: 24, offset: 5 },
-    sm: { span: 6 },
-  },
-  wrapperCol: {
-    xs: { span: 24, offset: 5 },
-    sm: { span: 14 },
-  },
-};
 
 const LogIn = () => {
   const { setAuth } = useContext(Auth);
-  // Estado del redux
   const dispatch = useDispatch();
 
   // Estado local
-  const [userEmail, setEmail] = useState("");
-  const [userPassword, setPassword] = useState("");
+  const [formData, setFormData] = useState({});
 
-  const { errors } = useSelector((state) => state.user);
-  console.log("ERRORES: ", errors);
+  const { errors } = useSelector((state) => state.login);
+
   // React Router
   const navigate = useNavigate();
 
@@ -41,96 +25,111 @@ const LogIn = () => {
   const formRef = useRef();
 
   // Functions
-  const handleSubmit = async () => {
-    // const passwordRegex = /^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*])[\w!@#$%^&*]{8,}$/;
-    // const validatedPassword = passwordRegex.test(userPassword);
+  useEffect(() => {
+    console.log("ERRORES: ", errors);
+  }, [errors]);
 
-    if (userEmail.trim() === "") {
-      console.log("email inválido");
-      return;
-    } else if (userPassword.trim() === "" || userPassword.length <= 7) {
-      console.log("password inválido");
-      return;
-    } else {
-      dispatch(postLogin({ email: userEmail, password: userPassword }));
-      //   const { token } = sendingData.data.data;
-      //   const { email, name } = sendingData.data.data.user;
+  const handleChange = ({ target: { name, value } }) => {
+    setFormData((values) => {
+      return { ...values, [name]: value };
+    });
+  };
 
-      formRef.current.resetFields();
-      setAuth(true);
-      navigate("/dashboard");
-    }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    dispatch(postLogin(formData));
+    formRef.current.resetFields();
+    setAuth(true);
+    navigate("/dashboard");
   };
 
   return (
-    <div className="w-screen h-screen overflow-hidden bg-slate-200 ">
-      <div className="max-w-md w-full absolute rounded overflow-hidden shadow-lg bg-white pt-10 my-auto top-1/4 left-1/3 right-1/3">
-        <Form
-          {...formItemLayout}
-          layout="vertical"
-          autoComplete="off"
-          onFinish={handleSubmit}
-          ref={formRef}
-          className="w-full"
-        >
-          <div className="justify-self-center">
-            <Form.Item
-              label="Email"
-              name="email"
-              rules={[
-                {
-                  required: true,
-                  message: "Por favor, ingrese su email",
-                },
-
-                {
-                  type: "email",
-                  message: "Ingrese un email válido",
-                },
-              ]}
-              hasFeedback
-            >
-              <Input
-                className=""
-                placeholder="direccion@gmail.com"
-                name="email"
-                value={userEmail}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                }}
-              />
-            </Form.Item>
+    <div className="w-screen h-screen overflow-hidden bg-slate-300 ">
+      <div className="max-w-md w-full absolute top-10 left-1/3 rounded overflow-hidden shadow-lg bg-white mx-auto p-10 ">
+        <form className="flex flex-col" ref={formRef} onSubmit={handleSubmit}>
+          <div className="mb-10">
+            <h3 className="text-center"> INICIAR SESIÓN </h3>
           </div>
-
-          <Form.Item
-            label="Password"
-            name="password"
-            hasFeedback
-            rules={[
-              {
-                required: true,
-                message: "Por favor, ingrese su contraseña",
-              },
-            ]}
-          >
-            <Input.Password
-              label="Contraseña"
-              name="password"
-              placeholder="Contraseña..."
-              value={userPassword}
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
+          {/* EMAIL */}
+          <div className="relative">
+            <input
+              className="peer placeholder-transparent text-base w-full bg-clip-padding bg-transparent border-0 border-b border-solid border-slate-700 pt-1 px-0
+              focus:outline-none focus:border-b focus:border-solid focus:border-sky-700
+            "
+              type="text"
+              placeholder="email"
+              id="email"
+              name="email"
+              onChange={(e) => handleChange(e)}
             />
-          </Form.Item>
-
-          <Form.Item wrapperCol={{ offset: 9, span: 16 }}>
-            <Button type="primary" htmlType="submit">
-              Iniciar Sesión
-            </Button>
-          </Form.Item>
-        </Form>
-        <div className="text-red-500">{errors ? errors : null}</div>
+            <label
+              for="email"
+              className="absolute left-0 -top-3 transition-all text-gray-700 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-1 peer-focus:-top-3 peer-focus:text-gray-700 peer-focus:text-xs"
+            >
+              Email
+            </label>
+            {/* ERRORES EMAIL */}
+            <div>
+              {errors.length > 0 &&
+                errors.map((error) => {
+                  if (error.email) {
+                    return <div className="text-red-600"> {error.email} </div>;
+                  }
+                })}
+            </div>
+          </div>
+          {/* CONTRASEÑA */}
+          <div className="relative mt-10">
+            <input
+              className="peer placeholder-transparent text-base w-full bg-clip-padding bg-transparent border-0 border-b border-solid border-slate-700 pt-1 px-0
+              focus:outline-none focus:border-b focus:border-solid focus:border-sky-700
+            "
+              type="password"
+              placeholder="contraseña"
+              id="password"
+              name="password"
+              onChange={(e) => handleChange(e)}
+            />
+            <label
+              for="password"
+              className="absolute left-0 -top-3 transition-all text-gray-700 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-1 peer-focus:-top-3 peer-focus:text-gray-700 peer-focus:text-xs"
+            >
+              {" "}
+              Contraseña{" "}
+            </label>
+            <div>
+              {errors.length > 0 &&
+                errors.map((error, index) => {
+                  console.log("ERROR: ", error);
+                  if (error.password) {
+                    return (
+                      <div key={index} className="text-red-600">
+                        {error.password}
+                      </div>
+                    );
+                  }
+                })}
+            </div>
+          </div>
+          {/* BOTÓN */}
+          <div className="text-center">
+            <button
+              className="p-2 bg-blue-600 text-white font-semibold mt-5"
+              type="submit"
+              onClick={(e) => handleSubmit(e)}
+            >
+              Iniciar sesión
+            </button>
+          </div>
+          <div className="mt-5">
+            <p>
+              ¿No tenés cuenta?{" "}
+              <Link to="/sign-up" className="text-blue-500 hover:underline">
+                Registrate
+              </Link>
+            </p>
+          </div>
+        </form>
       </div>
     </div>
   );

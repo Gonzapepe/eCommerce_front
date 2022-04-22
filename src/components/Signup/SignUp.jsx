@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 
 // Redux toolkit
 import { useDispatch, useSelector } from "react-redux";
-import { postRegister } from "../../redux/reducers/user";
+import { postRegister } from "../../redux/reducers/register";
 import { Link } from "react-router-dom";
 
 import { useNavigate } from "react-router-dom";
@@ -11,10 +11,9 @@ const SignUp = () => {
   const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({});
-  const [formErrors, setFormErrors] = useState({});
   const navigate = useNavigate();
   const formRef = useRef();
-  const { errors, userCreated } = useSelector((state) => state.user);
+  const { errors, userCreated } = useSelector((state) => state.register);
 
   useEffect(() => {
     console.log("ERRORES: ", errors);
@@ -226,7 +225,10 @@ const SignUp = () => {
           </div>
           <div className="mt-5">
             <p>
-              ¿Ya tenés cuenta? <Link to="/log-in">Inicia sesión</Link>{" "}
+              ¿Ya tenés cuenta?{" "}
+              <Link to="/log-in" className="text-blue-500 hover:underline ">
+                Inicia sesión
+              </Link>{" "}
             </p>
           </div>
         </form>
