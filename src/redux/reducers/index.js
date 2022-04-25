@@ -5,7 +5,9 @@ import loginSlice from "./login";
 import { productsService } from "../../api/products/products";
 import { subcategoriesService } from "../../api/subcategories/subcategory";
 import productSlice from "./products";
+import userSlice from "./user";
 const reducer = combineReducers({
+  user: userSlice,
   register: registerSlice,
   login: loginSlice,
   product: productSlice,

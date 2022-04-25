@@ -1,28 +1,27 @@
 import React, { useState, useEffect } from "react";
 
-import { useSelector } from "react-redux";
-import { selectUser } from "../../redux/reducers/register";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserData } from "../../redux/reducers/user";
+import Cookies from "js-cookie";
 import Slider from "../../layouts/home/Slider";
+import Header from "../../layouts/global/Header";
 
 const Home = () => {
-  const token = sessionStorage.getItem("token");
-  let userName = localStorage.getItem("name");
+  const token = Cookies.get("token");
+  const dispatch = useDispatch();
+  const { data, errors } = useSelector((state) => state.user);
 
-  if (!token) {
-    userName = null;
-  }
+  useEffect(() => {
+    if (token !== null) {
+      dispatch(getUserData(token));
+    }
+  }, [token]);
 
   return (
-    <>
-      {!userName ? (
-        <div>Hola Mundo</div>
-      ) : (
-        <div>
-          Hola <strong>{userName}</strong>
-        </div>
-      )}
+    <div className="overflow-hidden bg-slate-300">
+      <Header user={data} />
       <Slider />
-    </>
+    </div>
   );
 };
 

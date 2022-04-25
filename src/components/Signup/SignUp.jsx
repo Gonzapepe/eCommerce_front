@@ -15,17 +15,20 @@ const SignUp = () => {
   const formRef = useRef();
   const { errors, userCreated } = useSelector((state) => state.register);
 
-  useEffect(() => {
-    console.log("ERRORES: ", errors);
-    errors.map((error) => {
-      if (error.email) {
-        console.log("ERRORRES EMAIL: ", error);
-      }
-    });
-  }, [errors]);
+  // useEffect(() => {
+  //   console.log("ERRORES: ", errors);
+  //   errors.map((error) => {
+  //     if (error.email) {
+  //       console.log("ERRORRES EMAIL: ", error);
+  //     }
+  //   });
+  // }, [errors]);
 
   useEffect(() => {
     console.log("USUARIO CREADO: ", userCreated);
+    if (userCreated !== null) {
+      navigate("/log-in");
+    }
   }, [userCreated]);
 
   const handleChange = ({ target: { name, value } }) => {
@@ -37,8 +40,7 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch(postRegister(formData));
-    formRef.current.resetFields();
-    navigate("/log-in");
+    formRef.current.reset();
   };
 
   return (
@@ -67,12 +69,15 @@ const SignUp = () => {
               </label>
               {/* ERRORES NOMBRE */}
               <div>
-                {errors.length > 0 &&
-                  errors.map((error) => {
-                    if (error.name) {
-                      return <div className="text-red-600"> {error.name} </div>;
-                    }
-                  })}
+                {errors.errorsValidation
+                  ? errors.errorsValidation.map((error) => {
+                      if (error.name) {
+                        return (
+                          <div className="text-red-600"> {error.name} </div>
+                        );
+                      } else return null;
+                    })
+                  : null}
               </div>
             </div>
             <div className="relative">
@@ -91,14 +96,15 @@ const SignUp = () => {
                 Apellido
               </label>
               <div>
-                {errors.length > 0 &&
-                  errors.map((error) => {
-                    if (error.surname) {
-                      return (
-                        <div className="text-red-600"> {error.surname} </div>
-                      );
-                    }
-                  })}
+                {errors.errorsValidation
+                  ? errors.errorsValidation.map((error) => {
+                      if (error.surname) {
+                        return (
+                          <div className="text-red-600"> {error.surname} </div>
+                        );
+                      } else return null;
+                    })
+                  : null}
               </div>
             </div>
           </div>
@@ -120,12 +126,13 @@ const SignUp = () => {
             </label>
             {/* ERRORES DE EMAIL */}
             <div>
-              {errors.length > 0 &&
-                errors.map((error) => {
-                  if (error.email) {
-                    return <div className="text-red-600">{error.email}</div>;
-                  }
-                })}
+              {errors.errorsValidation
+                ? errors.errorsValidation.map((error) => {
+                    if (error.email) {
+                      return <div className="text-red-600">{error.email}</div>;
+                    } else return null;
+                  })
+                : null}
             </div>
           </div>
           {/* TELÉFONO */}
@@ -146,12 +153,15 @@ const SignUp = () => {
             </label>
             {/* ERRORES TELÉFONO */}
             <div>
-              {errors.length > 0 &&
-                errors.map((error) => {
-                  if (error.phone) {
-                    return <div className="text-red-600"> {error.phone} </div>;
-                  }
-                })}
+              {errors.errorsValidation
+                ? errors.errorsValidation.map((error) => {
+                    if (error.phone) {
+                      return (
+                        <div className="text-red-600"> {error.phone} </div>
+                      );
+                    } else return null;
+                  })
+                : null}
             </div>
           </div>
           {/* CONTRASEÑA */}
@@ -172,14 +182,15 @@ const SignUp = () => {
             </label>
             {/* ERRORES CONTRASEÑA */}
             <div>
-              {errors.length > 0 &&
-                errors.map((error) => {
-                  if (error.password) {
-                    return (
-                      <div className="text-red-600"> {error.password} </div>
-                    );
-                  }
-                })}
+              {errors.errorsValidation
+                ? errors.errorsValidation.map((error) => {
+                    if (error.password) {
+                      return (
+                        <div className="text-red-600"> {error.password} </div>
+                      );
+                    } else return null;
+                  })
+                : null}
             </div>
           </div>
           {/* CONFIRMAR CONTRASEÑA */}
@@ -200,17 +211,18 @@ const SignUp = () => {
             </label>
             {/* ERRORES CONFIRMAR CONTRASEÑA  */}
             <div>
-              {errors.length > 0 &&
-                errors.map((error) => {
-                  if (error.passwordConfirm) {
-                    return (
-                      <div className="text-red-600">
-                        {" "}
-                        {error.passwordConfirm}{" "}
-                      </div>
-                    );
-                  }
-                })}
+              {errors.errorsValidation
+                ? errors.errorsValidation.map((error) => {
+                    if (error.passwordConfirm) {
+                      return (
+                        <div className="text-red-600">
+                          {" "}
+                          {error.passwordConfirm}{" "}
+                        </div>
+                      );
+                    } else return null;
+                  })
+                : null}
             </div>
           </div>
           {/* BOTON */}

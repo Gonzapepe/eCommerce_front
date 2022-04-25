@@ -6,17 +6,15 @@ import { postLogin } from "../../redux/reducers/login";
 import { Link } from "react-router-dom";
 // React Router
 import { useNavigate } from "react-router-dom";
-import Auth from "../../Auth";
 import "./login.css";
 
 const LogIn = () => {
-  const { setAuth } = useContext(Auth);
   const dispatch = useDispatch();
 
   // Estado local
   const [formData, setFormData] = useState({});
 
-  const { errors } = useSelector((state) => state.login);
+  const { errors, token } = useSelector((state) => state.login);
 
   // React Router
   const navigate = useNavigate();
@@ -25,9 +23,12 @@ const LogIn = () => {
   const formRef = useRef();
 
   // Functions
+
   useEffect(() => {
-    console.log("ERRORES: ", errors);
-  }, [errors]);
+    if (token !== null) {
+      navigate("/");
+    }
+  }, [token]);
 
   const handleChange = ({ target: { name, value } }) => {
     setFormData((values) => {
@@ -38,9 +39,7 @@ const LogIn = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch(postLogin(formData));
-    formRef.current.resetFields();
-    setAuth(true);
-    navigate("/dashboard");
+    formRef.current.reset();
   };
 
   return (
@@ -70,12 +69,15 @@ const LogIn = () => {
             </label>
             {/* ERRORES EMAIL */}
             <div>
-              {errors.length > 0 &&
-                errors.map((error) => {
-                  if (error.email) {
-                    return <div className="text-red-600"> {error.email} </div>;
-                  }
-                })}
+              {errors.errorsValidation
+                ? errors.errorsValidation.map((error) => {
+                    if (error.email) {
+                      return (
+                        <div className="text-red-600"> {error.email} </div>
+                      );
+                    }
+                  })
+                : null}
             </div>
           </div>
           {/* CONTRASEÑA */}
@@ -97,18 +99,25 @@ const LogIn = () => {
               {" "}
               Contraseña{" "}
             </label>
+            {/* ERRORES DE CONTRASEÑA O LOGIN GENERAL */}
             <div>
-              {errors.length > 0 &&
-                errors.map((error, index) => {
-                  console.log("ERROR: ", error);
-                  if (error.password) {
-                    return (
-                      <div key={index} className="text-red-600">
-                        {error.password}
-                      </div>
-                    );
-                  }
-                })}
+              {errors.errorsValidation
+                ? errors.errorsValidation.map((error, index) => {
+                    console.log("ERROR: ", error);
+                    if (error.password) {
+                      return (
+                        <div key={index} className="text-red-600">
+                          {error.password}
+                        </div>
+                      );
+                    }
+                  })
+                : null}
+              {errors.errors
+                ? errors.errors.map((error) => {
+                    return <div className="text-red-600"> {error} </div>;
+                  })
+                : null}
             </div>
           </div>
           {/* BOTÓN */}

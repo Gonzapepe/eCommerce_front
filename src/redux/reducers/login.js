@@ -10,7 +10,8 @@ export const postLogin = createAsyncThunk(
     try {
       const { email, password } = initialLogin;
       const response = await axios.post(LOGIN_URL, { email, password });
-      return response.data.data;
+      console.log("RESPUESTA: ", response);
+      return response.data;
     } catch (err) {
       console.log("ERROR: ", err);
       return err;
@@ -31,14 +32,14 @@ const loginSlice = createSlice({
       state.isLoading = true;
     },
     [postLogin.fulfilled]: (state, action) => {
-      console.log("PAYLOAD: ", action.payload.response.data);
+      console.log("PAYLOAD: ", action.payload);
       state.isLoading = false;
-      if (action.payload.response.data.errorsValidation) {
-        state.errors = action.payload.response.data.errorsValidation;
-      } else if (action.payload.response.data.errors) {
-        state.errors = action.payload.response.data.errors;
+      if (action.payload.response?.data) {
+        state.errors = action.payload.response.data;
+      } else if (action.payload.response?.data.errors) {
+        state.errors = action.payload.response.data;
       } else {
-        state.token = action.payload.token;
+        state.token = action.payload.data.token;
         Cookies.set("user", "loggedIn");
         Cookies.set("token", state.token);
       }

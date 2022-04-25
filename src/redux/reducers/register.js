@@ -10,8 +10,8 @@ export const postRegister = createAsyncThunk(
       // aca van los datos que se mandan al postman
       // const { name, surname, email, password, confirmPassword, phone } = initialRegister
       const response = await axios.post(REGISTER_URL, initialRegister);
-      console.log("RESPUESTA DEL REGISTER: ", response.data.errors);
-      return response.data.data;
+      console.log("RESPUESTA DEL REGISTER: ", response.data);
+      return response.data;
     } catch (err) {
       return err;
     }
@@ -31,10 +31,9 @@ const registerSlice = createSlice({
       state.isLoading = true;
     },
     [postRegister.fulfilled]: (state, action) => {
-      console.log("PAYLOAD REGISTER: ", action.payload);
       state.isLoading = false;
-      if (action.payload.response.data) {
-        state.errors = action.payload.response.data.errorsValidation;
+      if (action.payload.response?.data) {
+        state.errors = action.payload.response.data;
       } else {
         state.userCreated = action.payload;
       }
