@@ -5,6 +5,9 @@ import { getUserData } from "../../redux/reducers/user";
 import Cookies from "js-cookie";
 import Slider from "../../layouts/home/Slider";
 import Header from "../../layouts/global/Header";
+import Categories from "../../layouts/home/Categories";
+import ColorSimulator from "../../layouts/home/ColorSimulator";
+import Delivery from "../../layouts/home/Delivery";
 
 const Home = () => {
   const token = Cookies.get("token");
@@ -21,6 +24,9 @@ const Home = () => {
     <div className="overflow-hidden bg-slate-300">
       <Header user={data} />
       <Slider />
+      <Categories />
+      <ColorSimulator />
+      <Delivery />
     </div>
   );
 };

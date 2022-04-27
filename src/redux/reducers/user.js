@@ -2,12 +2,11 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const URL = "http://localhost:4000/v1/users/self/data";
+const URL = "http://localhost:4000/v1/users";
 
 export const getUserData = createAsyncThunk("user/userData", async (token) => {
   try {
-    console.log("TOKEN TIPO: ", token);
-    const response = await axios.get(URL, {
+    const response = await axios.get(`${URL}/self/data`, {
       headers: { Authorization: token },
     });
     return response.data.data;
@@ -16,6 +15,27 @@ export const getUserData = createAsyncThunk("user/userData", async (token) => {
     return err;
   }
 });
+
+export const editUserData = createAsyncThunk(
+  "user/editUserData",
+  async (id, userData, token) => {
+    try {
+      console.log("ID: ", id);
+      console.log("USERDATA: ", userData);
+      console.log("TOKEN: ", token);
+      const response = await axios.patch(
+        `${URL}/${id}`,
+        { userData },
+        { headers: { Authorization: token } }
+      );
+      console.log("RESPUESTA DE EDITAR: ", response.data);
+      return response.data.data;
+    } catch (err) {
+      console.log("ERROR: ", err);
+      return err;
+    }
+  }
+);
 
 const userSlice = createSlice({
   name: "user",
@@ -38,6 +58,22 @@ const userSlice = createSlice({
       }
     },
     [getUserData.rejected]: (state, action) => {
+      state.errors = action.payload;
+      state.isLoading = false;
+    },
+    [editUserData.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [editUserData.fulfilled]: (state, action) => {
+      console.log("PAYLOAD: ", action.payload.response?.data);
+      state.isLoading = false;
+      if (action.payload.response?.data.errorMessage) {
+        state.errors = action.payload.response?.data.errorMessage;
+      } else {
+        state.data = action.payload;
+      }
+    },
+    [editUserData.rejected]: (state, action) => {
       state.errors = action.payload;
       state.isLoading = false;
     },

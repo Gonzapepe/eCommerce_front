@@ -61,7 +61,9 @@ const Header = ({ user }) => {
             <a href="/log-in" className=" hover:underline ">
               Ingresar
             </a>
-            <p className="bg-cyan-600 rounded-lg p-2">Registrarse</p>
+            <a href="/sign-up" className="bg-cyan-600 rounded-lg p-2">
+              Registrarse
+            </a>
           </div>
         )}
 
