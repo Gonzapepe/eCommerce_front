@@ -18,16 +18,14 @@ export const getUserData = createAsyncThunk("user/userData", async (token) => {
 
 export const editUserData = createAsyncThunk(
   "user/editUserData",
-  async (id, userData, token) => {
+  async ({ id, userData, token }) => {
     try {
       console.log("ID: ", id);
       console.log("USERDATA: ", userData);
       console.log("TOKEN: ", token);
-      const response = await axios.patch(
-        `${URL}/${id}`,
-        { userData },
-        { headers: { Authorization: token } }
-      );
+      const response = await axios.patch(`${URL}/${id}`, userData, {
+        headers: { Authorization: token },
+      });
       console.log("RESPUESTA DE EDITAR: ", response.data);
       return response.data.data;
     } catch (err) {

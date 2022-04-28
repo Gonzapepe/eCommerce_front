@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
@@ -17,9 +17,21 @@ const EditSettings = () => {
     });
   };
 
-  const handleSubmit = () => {
-    console.log("handle submit");
-    dispatch(editUserData(data.id, formData, token));
+  useEffect(() => {
+    if (formData.length === undefined || formData.length === null) {
+      setFormData({
+        name: data.name,
+        surname: data.surname,
+        email: data.email,
+        phone: data.phone,
+      });
+    }
+  }, [data]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    console.log("FORM DATA: ", formData);
   };
 
   return (
@@ -46,7 +58,7 @@ const EditSettings = () => {
             placeholder="nombre"
             id="nombre"
             name="name"
-            value={data.name ? data.name : ""}
+            value={formData.name}
             onChange={(e) => handleChange(e)}
           />
         </div>
@@ -61,7 +73,7 @@ const EditSettings = () => {
             placeholder="apellido"
             id="apellido"
             name="surname"
-            value={data.surname ? data.surname : ""}
+            value={formData.surname}
             onChange={(e) => handleChange(e)}
           />
         </div>
@@ -76,7 +88,7 @@ const EditSettings = () => {
             placeholder="correo electrónico"
             id="email"
             name="email"
-            value={data.email ? data.email : ""}
+            value={formData.email}
             onChange={(e) => handleChange(e)}
           />
         </div>
@@ -91,7 +103,7 @@ const EditSettings = () => {
             placeholder="Teléfono"
             id="phone"
             name="phone"
-            value={data.phone ? data.phone : ""}
+            value={formData.phone}
             onChange={(e) => handleChange(e)}
           />
         </div>
