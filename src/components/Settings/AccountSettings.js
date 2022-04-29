@@ -2,13 +2,18 @@ import React, { useEffect } from "react";
 
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import Spinner from '../Spinner/Spinner'
 
 const AccountSettings = () => {
-  const { data } = useSelector((state) => state.user);
+  const { data, isLoading } = useSelector((state) => state.user);
 
   useEffect(() => {
     console.log("CONFIGURACION DEL USUARIO", data);
   }, [data]);
+
+  if(isLoading) {
+    return <Spinner />
+  }
 
   return (
     <div className=" w-screen h-screen overflow-hidden bg-slate-300 ">

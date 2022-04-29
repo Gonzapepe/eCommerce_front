@@ -20,6 +20,7 @@ import Product from "./components/Product/Product";
 import NotFound from "./layouts/404/404";
 import AccountSettings from "./components/Settings/AccountSettings";
 import EditSettings from "./components/Settings/EditSettings";
+import Spinner from "./components/Spinner/Spinner";
 import "./index.css";
 
 // Cookies
@@ -36,7 +37,7 @@ function App() {
       setToken(tokenCookie);
     }
   };
-
+  const { data, isLoading } = useSelector((state) => state.user);
   useEffect(() => {
     readCookie();
   }, []);
@@ -48,7 +49,6 @@ function App() {
     dispatch(getUserData(token));
   }, [dispatch, token]);
 
-  const { data, isLoading } = useSelector((state) => state.user);
   console.log("DATA: ", data);
 
   // Metodo para mostrar 404 no encontrado
@@ -56,8 +56,8 @@ function App() {
     if (data && data.role === "STANDARD" && !isLoading) {
       return <Route path={path} element={component} exact />;
     } else if (isLoading) {
-      // return <Route path={path} element={} exact />
-    } else if (!data) {
+      return <Route path={path} element={<Spinner />} exact />;
+    } else if (!data && !isLoading) {
       return <Route path={path} element={<NotFound />} exact />;
     }
   };
@@ -91,9 +91,9 @@ function App() {
         <Route path="/product/:id" element={<Product />} />
         {/* Configuración de la cuenta */}
         {generateRoute("/settings", <AccountSettings />)}
-        {generateRoute('/settings/edit', <EditSettings />)}
+        {generateRoute("/settings/edit", <EditSettings />)}
 
-        {/* <Route path="*" element={<NotFound />} /> */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   );

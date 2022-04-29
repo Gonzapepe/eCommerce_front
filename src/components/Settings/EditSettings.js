@@ -3,10 +3,12 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { editUserData } from "../../redux/reducers/user";
+import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 
 const EditSettings = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { data } = useSelector((state) => state.user);
   const [formData, setFormData] = useState({});
   const token = Cookies.get("token");
@@ -32,6 +34,8 @@ const EditSettings = () => {
     e.preventDefault();
 
     console.log("FORM DATA: ", formData);
+    dispatch(editUserData({ id: data.id, userData: formData, token }));
+    navigate("/settings");
   };
 
   return (

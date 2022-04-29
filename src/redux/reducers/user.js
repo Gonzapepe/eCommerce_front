@@ -63,9 +63,9 @@ const userSlice = createSlice({
       state.isLoading = true;
     },
     [editUserData.fulfilled]: (state, action) => {
-      console.log("PAYLOAD: ", action.payload.response?.data);
       state.isLoading = false;
-      if (action.payload.response?.data.errorMessage) {
+      if (action.payload?.response?.data.errorMessage) {
+        console.log("PAYLOAD: ", action.payload.response?.data);
         state.errors = action.payload.response?.data.errorMessage;
       } else {
         state.data = action.payload;
