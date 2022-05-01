@@ -19,11 +19,11 @@ export const getUserData = createAsyncThunk("user/userData", async (token) => {
 export const editUserData = createAsyncThunk(
   "user/editUserData",
   async ({ id, userData, token }) => {
+    console.log("ID: ", id);
+    console.log("USERDATA: ", userData);
+    console.log("TOKEN: ", token);
     try {
-      console.log("ID: ", id);
-      console.log("USERDATA: ", userData);
-      console.log("TOKEN: ", token);
-      const response = await axios.patch(`${URL}/${id}`, userData, {
+      const response = await axios.patch(`${URL}/edit/${id}`, userData, {
         headers: { Authorization: token },
       });
       console.log("RESPUESTA DE EDITAR: ", response.data);
@@ -64,7 +64,7 @@ const userSlice = createSlice({
     },
     [editUserData.fulfilled]: (state, action) => {
       state.isLoading = false;
-      if (action.payload?.response?.data.errorMessage) {
+      if (action.payload.response?.data.errorMessage) {
         console.log("PAYLOAD: ", action.payload.response?.data);
         state.errors = action.payload.response?.data.errorMessage;
       } else {

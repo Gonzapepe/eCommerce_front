@@ -4,12 +4,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { editUserData } from "../../redux/reducers/user";
 import { useNavigate } from "react-router-dom";
+import Spinner from "../Spinner/Spinner";
 import Cookies from "js-cookie";
 
 const EditSettings = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { data } = useSelector((state) => state.user);
+  const { data, isLoading } = useSelector((state) => state.user);
   const [formData, setFormData] = useState({});
   const token = Cookies.get("token");
 
@@ -32,11 +33,20 @@ const EditSettings = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     console.log("FORM DATA: ", formData);
-    dispatch(editUserData({ id: data.id, userData: formData, token }));
-    navigate("/settings");
+    dispatch(
+      editUserData({
+        id: "a42ad0f4-3f01-451b-bd9f-756ff7c7a10f",
+        userData: formData,
+        token,
+      })
+    );
+    // navigate("/settings");
   };
+
+  if (isLoading) {
+    return <Spinner />;
+  }
 
   return (
     <div className="w-screen h-screen overflow-hidden bg-slate-300">
