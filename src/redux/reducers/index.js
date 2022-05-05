@@ -14,7 +14,9 @@ const reducer = combineReducers({
   register: registerSlice,
   login: loginSlice,
   product: productSlice,
+  // products: products
   [productsService.reducerPath]: productsService.reducer,
+  // subcategories: subcategories
   [subcategoriesService.reducerPath]: subcategoriesService.reducer,
 });
 

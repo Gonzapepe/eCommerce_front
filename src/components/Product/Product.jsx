@@ -5,6 +5,7 @@ import { getProduct } from "../../redux/reducers/products";
 import { addItem } from "../../redux/reducers/cart";
 import Spinner from "../Spinner/Spinner";
 import AwesomeSlider from "react-awesome-slider";
+import Cookies from "js-cookie";
 import "react-awesome-slider/dist/styles.css";
 import "./productStyle.css";
 
@@ -12,12 +13,16 @@ const Product = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
   const { product, isLoading } = useSelector((state) => state.product);
+  const token = Cookies.get("token");
   const [orderQuantity, setOrderQuantity] = useState(0);
+
+  useEffect(() => {
+    console.log("TOKEN DEL USUARIO: ", token);
+  }, [token]);
 
   useEffect(() => {
     dispatch(getProduct({ id }));
   }, [dispatch, id]);
-  console.log("STOCK: ", product.stock);
 
   let stock = product.data?.stock;
   const options = () => {
@@ -49,7 +54,6 @@ const Product = () => {
                   fillParent={false}
                 >
                   {product.data?.images.map((image, index) => {
-                    console.log("imagenes: ", image);
                     return (
                       // <img
                       //   height={100}
@@ -102,9 +106,9 @@ const Product = () => {
                   </button>
                   <button
                     className="text-blue-500 rounded shadow-md py-2 px-4 ml-2"
-                    onClick={() => {
+                    onClick={async () => {
                       let quantity = orderQuantity;
-                      dispatch(addItem({ id, quantity }));
+                      await dispatch(addItem({ token, id, quantity }));
                     }}
                   >
                     Añadir al carrito
@@ -114,7 +118,6 @@ const Product = () => {
             </div>
           </div>
         )}
-        {console.log("DATOS: ", product.data)}
       </div>
     </>
   );

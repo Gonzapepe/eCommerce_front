@@ -27,12 +27,18 @@ const loginSlice = createSlice({
     isLoading: false,
     errors: [],
   },
+  reducers: {
+    setToken(state, action) {
+      if (state.token === null) {
+        state.token = action.payload;
+      }
+    },
+  },
   extraReducers: {
     [postLogin.pending]: (state) => {
       state.isLoading = true;
     },
     [postLogin.fulfilled]: (state, action) => {
-      console.log("PAYLOAD: ", action.payload);
       state.isLoading = false;
       if (action.payload.response?.data) {
         state.errors = action.payload.response.data;
@@ -51,4 +57,5 @@ const loginSlice = createSlice({
   },
 });
 
+export const { setToken } = loginSlice.actions;
 export default loginSlice.reducer;

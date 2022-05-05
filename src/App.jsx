@@ -5,6 +5,7 @@ import { Routes, Route, Link, Navigate } from "react-router-dom";
 
 // Redux
 import { useDispatch, useSelector } from "react-redux";
+import { setToken } from "./redux/reducers/login";
 import user, { getUserData } from "./redux/reducers/user";
 
 /* Components */
@@ -31,6 +32,7 @@ import Cookies from "js-cookie";
 function App() {
   // const [auth, setAuth] = useState(false);
   const [token, setToken] = useState(null);
+  const dispatch = useDispatch();
   const readCookie = () => {
     const tokenCookie = Cookies.get("token");
     if (tokenCookie) {
@@ -42,12 +44,10 @@ function App() {
     readCookie();
   }, []);
 
-  const dispatch = useDispatch();
-
   useEffect(() => {
     // Carga al usuario cada vez que renderizamos
     dispatch(getUserData(token));
-  }, [dispatch, token]);
+  }, [dispatch]);
 
   console.log("DATA: ", data);
 

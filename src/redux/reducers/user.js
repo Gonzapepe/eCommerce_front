@@ -5,6 +5,7 @@ const URL = "http://localhost:4000/v1/users";
 
 export const getUserData = createAsyncThunk("user/userData", async (token) => {
   try {
+    console.log("TOKEN DEL USER DATA: ", token);
     const response = await axios.get(`${URL}/self/data`, {
       headers: { Authorization: token },
     });
@@ -51,6 +52,7 @@ const userSlice = createSlice({
       if (action.payload.response?.data.errorMessage) {
         state.errors = action.payload.response?.data.errorMessage;
       } else {
+        state.errors = [];
         state.data = action.payload;
       }
     },
