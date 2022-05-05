@@ -1,19 +1,23 @@
 import Cookies from "js-cookie";
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { ReactComponent as Profile } from "../../assets/icons/Profile.svg";
-import { ReactComponent as Settings } from "../../assets/icons/Settings.svg";
-import { ReactComponent as Logout } from "../../assets/icons/Logout.svg";
+import { ReactComponent as ShoppingCart } from "../../assets/icons/shopping-cart.svg";
+import { toggleCartHidden } from "../../redux/reducers/cart";
 import "./headerStyle.css";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import MenuItem from "../MenuItem/MenuItem";
+import CartDropdown from "..//Cart/CartDropdown";
 
 const Header = ({ user }) => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   // Maybe I should add a isAuthenticated to the redux user initialState
   // Like this: isAuthenticated: Cookies.get('token') ? true : false
   const logOut = () => {
     Cookies.remove("token");
   };
-
+  const { hidden } = useSelector((state) => state.cart);
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -55,35 +59,17 @@ const Header = ({ user }) => {
                 <p>{user.name}</p>
               </button>
               {/* Menu item */}
-              {isOpen && (
-                <div className="z-10 origin-top-right absolute rounded-md -right-1 mt-2 w-40  shadow-lg bg-white divide-y divide-gray-100 focus:outline-none">
-                  <div className="">
-                    <Link
-                      to="/settings"
-                      className="group w-full flex items-center px-4 py-2 text-sm text-black hover:underline hover:opacity-60"
-                    >
-                      <Settings width="14" height="14" className="mr-1" />
-                      Configuración
-                    </Link>
-                    <button
-                      onClick={() => logOut()}
-                      className="group w-full flex items-center px-4 py-2 text-sm text-black hover:underline hover:opacity-60 "
-                    >
-                      <Logout width="14" height="14" className="mr-1" />
-                      Cerrar sesión
-                    </button>
-                  </div>
-                </div>
-              )}
+              {isOpen && <MenuItem logOut={logOut} />}
             </div>
-
-            {/*             
-            <button
-              className="bg-cyan-600 rounded-lg p-2 hover:opacity-90 "
-              onClick={logOut}
+            {/* Shopping Cart Icon */}
+            <div
+              onClick={() => dispatch(toggleCartHidden())}
+              className="relative w-11 h-11 flex items-center justify-center cursor-pointer"
             >
-              Cerrar sesión
-            </button> */}
+              <ShoppingCart width="24" height="25" className=" color-profile" />
+              <span className="absolute text-xs font-bold bottom-3"></span>
+            </div>
+            {hidden ? null : <CartDropdown />}
           </div>
         ) : (
           <div

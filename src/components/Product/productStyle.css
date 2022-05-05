@@ -13,7 +13,7 @@
     --loader-bar-color: #851515;
     --loader-bar-height: 3px;
     }
-    
+
     @media (min-width: 40rem) {
         .sliderProduct {
             --slider-height-percentage: 30%;

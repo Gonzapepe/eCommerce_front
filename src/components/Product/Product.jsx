@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useGetProductQuery } from "../../api/products/products";
 import { useParams } from "react-router-dom";
 import { getProduct } from "../../redux/reducers/products";
+import { addItem } from "../../redux/reducers/cart";
+import Spinner from "../Spinner/Spinner";
 import AwesomeSlider from "react-awesome-slider";
 import "react-awesome-slider/dist/styles.css";
 import "./productStyle.css";
@@ -10,14 +11,30 @@ import "./productStyle.css";
 const Product = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
-  const { product, isLoading, errors } = useSelector((state) => state.product);
+  const { product, isLoading } = useSelector((state) => state.product);
+  const [orderQuantity, setOrderQuantity] = useState(0);
 
   useEffect(() => {
     dispatch(getProduct({ id }));
-  }, [id]);
+  }, [dispatch, id]);
+  console.log("STOCK: ", product.stock);
+
+  let stock = product.data?.stock;
+  const options = () => {
+    let arr = [];
+
+    for (let i = 1; i <= stock; i++) {
+      arr.push(
+        <option key={i} value={i}>
+          {i}
+        </option>
+      );
+    }
+    return arr;
+  };
 
   if (isLoading) {
-    return <div>Cargando...</div>;
+    return <Spinner />;
   }
 
   return (
@@ -64,6 +81,18 @@ const Product = () => {
                   </div>
                   <div className="font-bold text-base"> Descripción: </div>
                   <div className="text-base"> {product.data.description} </div>
+                  <div className=" mt-5 flex flex-row">
+                    <span className="mr-2 font-semibold text-lg ">
+                      Stock disponible:{" "}
+                    </span>
+                    <select
+                      className="w-20 text-center border p-1 rounded"
+                      onChange={(e) => setOrderQuantity(e.target.value)}
+                    >
+                      <option value={0}>CANT</option>
+                      {options()}
+                    </select>
+                  </div>
                 </div>
 
                 <div className="mb-24">
@@ -71,7 +100,13 @@ const Product = () => {
                     {" "}
                     Comprar
                   </button>
-                  <button className="text-blue-500 rounded shadow-md py-2 px-4 ml-2">
+                  <button
+                    className="text-blue-500 rounded shadow-md py-2 px-4 ml-2"
+                    onClick={() => {
+                      let quantity = orderQuantity;
+                      dispatch(addItem({ id, quantity }));
+                    }}
+                  >
                     Añadir al carrito
                   </button>
                 </div>

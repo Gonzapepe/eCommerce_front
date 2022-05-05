@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import Product from "../../layouts/products/Product";
 import Header from "../../layouts/global/Header";
 import Subcategories from "../../layouts/subcategories/Subcategories";
 import { useGetProductsQuery } from "../../api/products/products";
 import { useGetSubcategoriesProductsQuery } from "../../api/subcategories/subcategory";
+import { useNavigate } from "react-router-dom";
 
 const Products = () => {
   const dispatch = useDispatch();
   // const { products } = useSelector((state) => state.products);
-
+  const navigate = useNavigate();
   const { data, isLoading } = useGetProductsQuery("");
   const [subcategories, setSubcategories] = useState([]);
   // Es mejor hacer una sola request pero con todos los datos o hacer muchas por cada Producto?
@@ -41,6 +42,11 @@ const Products = () => {
     // dispatch(data);
   }, [data]);
 
+  // Dirije al producto hacia la pagina del producto
+  const onProductClick = (id) => {
+    navigate(`/product/${id}`);
+  };
+
   useEffect(() => {
     console.log("DATOS DE PRODUCTOS SUBCATEGORIAS: ", subcategoriesProducts);
   }, [subcategories]);
@@ -67,20 +73,22 @@ const Products = () => {
                   console.log("ITEM: ", item);
                 }
                 return (
-                  <Product
-                    key={item.id}
-                    path={
-                      item.images.length
-                        ? item.images[0].path
-                        : "uploads/default.png"
-                    }
-                    title={item.title}
-                    subcategories={
-                      item.subcategories.length ? item.subcategories : null
-                    }
-                    price={item.price}
-                    description={item.description}
-                  />
+                  <div onClick={() => onProductClick(item.id)}>
+                    <Product
+                      key={item.id}
+                      path={
+                        item.images.length
+                          ? item.images[0].path
+                          : "uploads/default.png"
+                      }
+                      title={item.title}
+                      subcategories={
+                        item.subcategories.length ? item.subcategories : null
+                      }
+                      price={item.price}
+                      description={item.description}
+                    />
+                  </div>
                   // <div>
                   //   <h2> {item.title} </h2>
                   //   <img

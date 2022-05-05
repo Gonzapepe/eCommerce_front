@@ -1,6 +1,11 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
-const Product = ({ id, path, title, price, subcategories }) => {
+const Product = ({ id, path, title, price, subcategories, onClick }) => {
+  const navigate = useNavigate();
+  if (onClick) {
+    navigate(`/product/${id}`);
+  }
   return (
     <div
       key={id}

@@ -36,7 +36,7 @@ const EditSettings = () => {
     console.log("FORM DATA: ", formData);
     dispatch(
       editUserData({
-        id: "a42ad0f4-3f01-451b-bd9f-756ff7c7a10f",
+        id: data.id,
         userData: formData,
         token,
       })
