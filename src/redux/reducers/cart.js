@@ -6,22 +6,29 @@ import {
 import axios from "axios";
 
 const URL = "http://localhost:4000/v1/products";
+const CART_URL = "http://localhost:4000/v1/cart";
 
-const selectCart = (state) => state.cart;
-export const selectCartItems = createSelector(
-  [selectCart],
-  (cart) => cart.cartItems
-);
+// const selectCart = (state) => state;
+// export const selectCartItems = createSelector([selectCart], (cart) => cart);
+
+export const getCart = createAsyncThunk("cart/getCart", async (token) => {
+  try {
+    const response = await axios.get(CART_URL, {
+      headers: { Authorization: token },
+    });
+    return response.data.data;
+  } catch (err) {
+    console.log("ERROR GET CART: ", err);
+    return err;
+  }
+});
 
 export const addItem = createAsyncThunk(
   "cart/addItem",
   async ({ token, quantity, id }) => {
-    console.log("TOKEN: ", token);
-    console.log("CANTIDAD: ", typeof quantity);
-    console.log("TIPO ID: ", id);
     try {
       const response = await axios.post(
-        `http://localhost:4000/v1/products/${id}`,
+        `${URL}/${id}`,
         { quantity: Number(quantity) },
         {
           headers: {
@@ -35,7 +42,7 @@ export const addItem = createAsyncThunk(
       return response.data;
     } catch (err) {
       console.log("ERROR ADDITEM: ", err);
-      return err.response.data.errorMessage;
+      return err;
     }
   }
 );
@@ -52,23 +59,35 @@ const cartSlice = createSlice({
     toggleCartHidden(state) {
       state.hidden = !state.hidden;
     },
-    extraReducers: {
-      [addItem.pending]: (state) => {
-        state.isLoading = true;
-      },
-      [addItem.fulfilled]: (state, action) => {
-        state.isLoading = false;
-        if (action.payload?.response?.data.errorMessage) {
-          state.errors = action.payload.response?.data.errorMessage;
-        } else {
-          console.log("CARTITEMS: ", action.payload);
-          state.cartItems = [action.payload];
-        }
-      },
-      [addItem.rejected]: (state, action) => {
-        state.isLoading = false;
-        state.errors = action.payload;
-      },
+  },
+  extraReducers: {
+    [addItem.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [addItem.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      if (action.payload?.response?.data.errorMessage) {
+        state.errors = action.payload.response?.data.errorMessage;
+      } else {
+        console.log("CARTITEMS: ", action.payload);
+        state.cartItems = action.payload;
+      }
+    },
+    [addItem.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.errors = action.payload;
+    },
+    [getCart.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [getCart.fulfilled]: (state, action) => {
+      console.log("FULFILLED");
+      state.isLoading = false;
+      state.cartItems = action.payload.cartItems;
+    },
+    [getCart.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.errors = action.payload;
     },
   },
 });
