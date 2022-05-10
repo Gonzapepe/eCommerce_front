@@ -38,10 +38,25 @@ export const addItem = createAsyncThunk(
           },
         }
       );
-      console.log("RESPUESTA ITEM AÑADIDO: ", response);
       return response.data;
     } catch (err) {
       console.log("ERROR ADDITEM: ", err);
+      return err;
+    }
+  }
+);
+
+export const deleteItem = createAsyncThunk(
+  "cart/deleteItem",
+  async ({ token, id }) => {
+    try {
+      const response = await axios.delete(`${CART_URL}/${id}`, {
+        headers: { Authorization: token },
+      });
+      console.log("RESPUESTA DE DELETE ITEM: ", response);
+      return response.data;
+    } catch (err) {
+      console.log(err);
       return err;
     }
   }
@@ -81,11 +96,22 @@ const cartSlice = createSlice({
       state.isLoading = true;
     },
     [getCart.fulfilled]: (state, action) => {
-      console.log("FULFILLED");
       state.isLoading = false;
       state.cartItems = action.payload.cartItems;
     },
     [getCart.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.errors = action.payload;
+    },
+    [deleteItem.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [deleteItem.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      console.log("ACTION PAYLOAD DE DELETEITEM: ", action.payload);
+      state.cartItems.filter((item) => item.id !== action.payload.data.id);
+    },
+    [deleteItem.rejected]: (state, action) => {
       state.isLoading = false;
       state.errors = action.payload;
     },

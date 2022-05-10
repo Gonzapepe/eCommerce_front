@@ -23,6 +23,7 @@ const Header = ({ user }) => {
   return (
     <div className="flex justify-center w-full h-24 bg-blue-700 text-white">
       <div className=" w-full max-w-6xl h-full gap-x-6 flex flex-row justify-center items-center md:gap-x-10 lg:ml-4 lg:mr-4">
+        {hidden ? null : <CartDropdown />}
         <div className="" id="logo">
           <h1>Logo</h1>
         </div>
@@ -69,7 +70,6 @@ const Header = ({ user }) => {
               <ShoppingCart width="24" height="25" className=" color-profile" />
               <span className="absolute text-xs font-bold bottom-3"></span>
             </div>
-            {hidden ? null : <CartDropdown />}
           </div>
         ) : (
           <div
