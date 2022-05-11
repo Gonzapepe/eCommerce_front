@@ -1,6 +1,9 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { toggleCartHidden, getCart } from "../../redux/reducers/cart";
+import {
+  fetchCartProducts,
+  toggleCartHidden,
+} from "../../redux/reducers/cart/cart.actions";
 import { useDispatch, useSelector } from "react-redux";
 import CartItem from "../Cart-item/Cart-item";
 import Cookies from "js-cookie";
@@ -12,7 +15,7 @@ const CartDropdown = () => {
   const { cartItems } = useSelector((state) => state.cart);
 
   useEffect(async () => {
-    dispatch(getCart(token));
+    dispatch(fetchCartProducts());
   }, [dispatch, token]);
 
   return (

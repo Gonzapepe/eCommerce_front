@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ReactComponent as Profile } from "../../assets/icons/Profile.svg";
 import { ReactComponent as ShoppingCart } from "../../assets/icons/shopping-cart.svg";
-import { toggleCartHidden } from "../../redux/reducers/cart";
+import { toggleCartHidden } from "../../redux/reducers/cart/cart.actions";
 import "./headerStyle.css";
 import { useNavigate } from "react-router-dom";
 import MenuItem from "../MenuItem/MenuItem";
@@ -17,8 +17,8 @@ const Header = ({ user }) => {
   const logOut = () => {
     Cookies.remove("token");
   };
-  const hidden = true;
-  // const { hidden } = useSelector((state) => state.cart);
+
+  const { hidden } = useSelector((state) => state.cart);
   const [isOpen, setIsOpen] = useState(false);
 
   return (
