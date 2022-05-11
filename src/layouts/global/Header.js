@@ -17,7 +17,8 @@ const Header = ({ user }) => {
   const logOut = () => {
     Cookies.remove("token");
   };
-  const { hidden } = useSelector((state) => state.cart);
+  const hidden = true;
+  // const { hidden } = useSelector((state) => state.cart);
   const [isOpen, setIsOpen] = useState(false);
 
   return (

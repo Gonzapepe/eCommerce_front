@@ -8,6 +8,7 @@ import Header from "../../layouts/global/Header";
 import Categories from "../../layouts/home/Categories";
 import ColorSimulator from "../../layouts/home/ColorSimulator";
 import Delivery from "../../layouts/home/Delivery";
+import { loadUser } from "../../redux/reducers/user/user.actions";
 
 const Home = () => {
   const token = Cookies.get("token");
@@ -16,7 +17,7 @@ const Home = () => {
 
   useEffect(() => {
     if (token !== null) {
-      dispatch(getUserData(token));
+      dispatch(loadUser());
     }
   }, [token]);
 

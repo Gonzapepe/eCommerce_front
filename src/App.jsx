@@ -7,6 +7,7 @@ import { Routes, Route, Link, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setToken } from "./redux/reducers/login";
 import user, { getUserData } from "./redux/reducers/user";
+import { loadUser } from "./redux/reducers/user/user.actions";
 
 /* Components */
 import Home from "./components/Home/Home";
@@ -33,21 +34,15 @@ function App() {
   // const [auth, setAuth] = useState(false);
   const [token, setToken] = useState(null);
   const dispatch = useDispatch();
-  const readCookie = () => {
-    const tokenCookie = Cookies.get("token");
-    if (tokenCookie) {
-      setToken(tokenCookie);
-    }
-  };
-  const { data, isLoading } = useSelector((state) => state.user);
-  useEffect(() => {
-    readCookie();
-  }, []);
+
+  const state = useSelector((state) => state.user);
 
   useEffect(() => {
     // Carga al usuario cada vez que renderizamos
-    dispatch(getUserData(token));
+    dispatch(loadUser());
   }, [dispatch]);
+
+  const { data, isLoading } = useSelector((state) => state.user);
 
   console.log("DATA: ", data);
 

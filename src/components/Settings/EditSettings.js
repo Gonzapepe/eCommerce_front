@@ -2,17 +2,15 @@ import React, { useState, useEffect } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { editUserData } from "../../redux/reducers/user";
 import { useNavigate } from "react-router-dom";
 import Spinner from "../Spinner/Spinner";
-import Cookies from "js-cookie";
+import { editUser } from "../../redux/reducers/user/user.actions";
 
 const EditSettings = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { data, isLoading } = useSelector((state) => state.user);
   const [formData, setFormData] = useState({});
-  const token = Cookies.get("token");
 
   const handleChange = ({ target: { name, value } }) => {
     setFormData((values) => {
@@ -34,13 +32,7 @@ const EditSettings = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("FORM DATA: ", formData);
-    dispatch(
-      editUserData({
-        id: data.id,
-        userData: formData,
-        token,
-      })
-    );
+    dispatch(editUser(data.id, formData));
     // navigate("/settings");
   };
 

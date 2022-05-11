@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 // RTK
 import { useDispatch, useSelector } from "react-redux";
 import { postLogin } from "../../redux/reducers/login";
+import { login } from "../../redux/reducers/user/user.actions";
 // React-router-dom
 import { Link } from "react-router-dom";
 // React Router
@@ -14,7 +15,7 @@ const LogIn = () => {
   // Estado local
   const [formData, setFormData] = useState({});
 
-  const { errors, token } = useSelector((state) => state.login);
+  const { errors, token } = useSelector((state) => state.user);
 
   // React Router
   const navigate = useNavigate();
@@ -25,6 +26,7 @@ const LogIn = () => {
   // Functions
 
   useEffect(() => {
+    console.log("TOKEN: ", token);
     if (token !== null) {
       navigate("/");
     }
@@ -38,7 +40,7 @@ const LogIn = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(postLogin(formData));
+    dispatch(login(formData));
     formRef.current.reset();
   };
 

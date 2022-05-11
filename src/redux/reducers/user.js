@@ -1,10 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const URL = "http://localhost:4000/v1/users";
 
-export const getUserData = createAsyncThunk("user/userData", async (token) => {
+export const getUserData = createAsyncThunk("user/userData", async () => {
   try {
+    const token = Cookies.get("tokem");
     console.log("TOKEN DEL USER DATA: ", token);
     const response = await axios.get(`${URL}/self/data`, {
       headers: { Authorization: token },

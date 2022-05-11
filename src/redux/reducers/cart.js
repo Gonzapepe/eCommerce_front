@@ -2,6 +2,7 @@ import {
   createSlice,
   createAsyncThunk,
   createSelector,
+  current,
 } from "@reduxjs/toolkit";
 import axios from "axios";
 
@@ -108,8 +109,15 @@ const cartSlice = createSlice({
     },
     [deleteItem.fulfilled]: (state, action) => {
       state.isLoading = false;
-      console.log("ACTION PAYLOAD DE DELETEITEM: ", action.payload);
-      state.cartItems.filter((item) => item.id !== action.payload.data.id);
+      console.log(
+        "ACTION PAYLOAD DE DELETEITEM: ",
+        typeof action.payload.data.id
+      );
+      console.log("CARTITEMS: ", current(state.cartItems));
+      state.cartItems = state.cartItems.filter(
+        (item) => item.id !== action.payload.data.id
+      );
+      console.log("CARTITEMS: ", current(state.cartItems));
     },
     [deleteItem.rejected]: (state, action) => {
       state.isLoading = false;

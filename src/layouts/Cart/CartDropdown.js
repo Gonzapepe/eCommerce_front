@@ -36,7 +36,8 @@ const CartDropdown = () => {
 
       <div className="h-5/6 flex flex-col overflow-y-auto">
         {cartItems?.map((item, index) => {
-          return <CartItem token={token} key={index} item={item} />;
+          console.log("CARTITEM ID:", item.id);
+          return <CartItem token={token} key={item.id} item={item} />;
         })}
       </div>
 
