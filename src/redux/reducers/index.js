@@ -8,10 +8,12 @@ import productSlice from "./products";
 // import userSlice from "./user";
 import usersReducer from "./user/user.reducer";
 import cartReducer from "./cart/cart.reducer";
+import productReducer from "./products/products.reducer";
 
 const reducer = combineReducers({
   user: usersReducer,
   cart: cartReducer,
+  product: productReducer,
   // cart: cartSlice,
   // register: registerSlice,
   // login: loginSlice,
