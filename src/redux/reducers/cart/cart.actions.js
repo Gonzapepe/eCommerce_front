@@ -5,6 +5,8 @@ import {
   TOGGLE_CART_HIDDEN,
   ADD_TO_CART_FAILURE,
   ADD_TO_CART_SUCCESS,
+  REMOVE_FROM_CART_SUCCESS,
+  REMOVE_FROM_CART_FAILURE,
 } from "./cart.types";
 import axios from "axios";
 
@@ -15,6 +17,23 @@ export const toggleCartHidden = () => {
   };
 };
 
+// Remove item from cart
+export const removeFromCart = (id) => async (dispatch) => {
+  const token = localStorage.getItem("token");
+  try {
+    const response = await axios.delete(`http://localhost:4000/v1/cart/${id}`, {
+      headers: { Authorization: token },
+    });
+    console.log("RESPUESTA DEL DELETE ITEM: ", response.data);
+    dispatch(removeFromCartSuccess(response.data.data));
+    return response.data;
+  } catch (err) {
+    console.log(err);
+    dispatch(removeFromCartFailure(err));
+  }
+};
+
+// Add product to Cart
 export const addToCart = (id, quantity) => async (dispatch) => {
   const token = localStorage.getItem("token");
   try {
@@ -23,7 +42,7 @@ export const addToCart = (id, quantity) => async (dispatch) => {
       { quantity: Number(quantity) },
       { headers: { Authorization: token } }
     );
-    console.log("RESPUESTA ADD TO CART: ", response.data);
+    console.log("RESPUESTA ADD TO CART: ", response.data.data);
     dispatch(addToCartSuccess(response.data));
     return response.data;
   } catch (err) {
@@ -76,15 +95,30 @@ const fetchCartFailure = (error) => {
 const addToCartSuccess = (data) => {
   return {
     type: ADD_TO_CART_SUCCESS,
-    payload: {
-      data,
-    },
+    payload: data,
   };
 };
 
 const addToCartFailure = (error) => {
   return {
     type: ADD_TO_CART_FAILURE,
+    payload: {
+      error,
+    },
+  };
+};
+
+// Remove from cart types
+const removeFromCartSuccess = (data) => {
+  return {
+    type: REMOVE_FROM_CART_SUCCESS,
+    payload: data,
+  };
+};
+
+const removeFromCartFailure = (error) => {
+  return {
+    type: REMOVE_FROM_CART_FAILURE,
     payload: {
       error,
     },

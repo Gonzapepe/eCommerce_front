@@ -1,7 +1,7 @@
 import React from "react";
 import { ReactComponent as Trash } from "../../assets/icons/trash.svg";
 import { useDispatch } from "react-redux";
-import { deleteItem } from "../../redux/reducers/cart";
+import { removeFromCart } from "../../redux/reducers/cart/cart.actions";
 
 // imagen y precio y lo demas esta dentro de product exceptuando la cantidad
 const CartItem = ({ item, token }) => {
@@ -34,7 +34,7 @@ const CartItem = ({ item, token }) => {
           width="24"
           height="24"
           onClick={() => {
-            dispatch(deleteItem({ token, id: item.id }));
+            dispatch(removeFromCart(item.id));
           }}
         />
         <span className="font-bold mb-5 text-sm text-black ">

@@ -2,14 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { fetchProduct } from "../../redux/reducers/products/products.actions";
-import { addItem } from "../../redux/reducers/cart";
+import { addToCart } from "../../redux/reducers/cart/cart.actions";
 import Spinner from "../Spinner/Spinner";
 import AwesomeSlider from "react-awesome-slider";
 import "react-awesome-slider/dist/styles.css";
 import "./productStyle.css";
 
 const Product = () => {
-  const token = true;
   const dispatch = useDispatch();
   const { id } = useParams();
   const { product, isLoading } = useSelector((state) => state.product);
@@ -52,21 +51,22 @@ const Product = () => {
                   className="sliderProduct h-72"
                   fillParent={false}
                 >
-                  {product?.images.map((image, index) => {
-                    return (
-                      // <img
-                      //   height={100}
-                      //   width={100}
-                      //   className=""
-                      //   src={`http://localhost:4000/${image.path}`}
-                      // />
-                      <div
-                        className=""
-                        key={image.id}
-                        data-src={`http://localhost:4000/${image.path}`}
-                      />
-                    );
-                  })}
+                  {product.images &&
+                    product?.images.map((image, index) => {
+                      return (
+                        // <img
+                        //   height={100}
+                        //   width={100}
+                        //   className=""
+                        //   src={`http://localhost:4000/${image.path}`}
+                        // />
+                        <div
+                          className=""
+                          key={image.id}
+                          data-src={`http://localhost:4000/${image.path}`}
+                        />
+                      );
+                    })}
                 </AwesomeSlider>
 
                 {/* <img
@@ -103,7 +103,7 @@ const Product = () => {
                     className="text-blue-500 rounded shadow-md py-2 px-4 ml-2"
                     onClick={async () => {
                       let quantity = orderQuantity;
-                      await dispatch(addItem({ token, id, quantity }));
+                      await dispatch(addToCart(id, quantity));
                     }}
                   >
                     Añadir al carrito

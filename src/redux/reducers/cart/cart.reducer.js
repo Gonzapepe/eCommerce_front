@@ -5,6 +5,8 @@ import {
   TOGGLE_CART_HIDDEN,
   ADD_TO_CART_SUCCESS,
   ADD_TO_CART_FAILURE,
+  REMOVE_FROM_CART_SUCCESS,
+  REMOVE_FROM_CART_FAILURE,
 } from "./cart.types";
 
 let initialState = {
@@ -40,6 +42,25 @@ const cartReducer = (state = initialState, action) => {
     case ADD_TO_CART_SUCCESS:
       return {
         ...state,
+        cartItems: action.payload,
+      };
+    case ADD_TO_CART_FAILURE:
+      return {
+        ...state,
+        errors: action.payload,
+      };
+    case REMOVE_FROM_CART_SUCCESS:
+      console.log("ACTION PAYLOAD: ", action.payload);
+      return {
+        ...state,
+        cartItems: state.cartItems.filter(
+          (cartItem) => cartItem.id !== action.payload.id
+        ),
+      };
+    case REMOVE_FROM_CART_FAILURE:
+      return {
+        ...state,
+        errors: action.payload,
       };
     default:
       return state;
