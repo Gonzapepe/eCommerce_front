@@ -1,19 +1,18 @@
 import { combineReducers } from "redux";
 
-import registerSlice from "./register";
-import loginSlice from "./login";
-import { productsService } from "../../api/products/products";
-import { subcategoriesService } from "../../api/subcategories/subcategory";
-import productSlice from "./products";
 // import userSlice from "./user";
 import usersReducer from "./user/user.reducer";
 import cartReducer from "./cart/cart.reducer";
-import productReducer from "./products/products.reducer";
+import productReducer from "./product/product.reducer";
+import subcategoriesReducer from "./subcategory/subcategory.reducer";
+import productsReducer from "./products/products.reducer";
 
 const reducer = combineReducers({
   user: usersReducer,
   cart: cartReducer,
   product: productReducer,
+  products: productsReducer,
+  subcategories: subcategoriesReducer,
   // cart: cartSlice,
   // register: registerSlice,
   // login: loginSlice,

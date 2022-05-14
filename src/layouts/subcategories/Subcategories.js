@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useGetSubcategoriesQuery } from "../../api/subcategories/subcategory";
+import { fetchSubcategories } from "../../redux/reducers/subcategory/subcategory.actions";
 
 const Subcategory = ({ parentCallback }) => {
   const dispatch = useDispatch();
-  const { data, isLoading } = useGetSubcategoriesQuery("");
+  const { subcategories, isLoading } = useSelector(
+    (state) => state.subcategories
+  );
+
+  useEffect(() => {
+    dispatch(fetchSubcategories());
+  }, [dispatch]);
 
   const handleToggle = (name) => {
     parentCallback(name);
@@ -21,7 +27,7 @@ const Subcategory = ({ parentCallback }) => {
         Subcategorías{" "}
       </h2>
       <div className="mt-4 flex flex-col">
-        {data.data.map((subcategory) => {
+        {subcategories.map((subcategory) => {
           console.log(subcategory);
           return (
             <div key={subcategory.id} className="inline-block ml-10">

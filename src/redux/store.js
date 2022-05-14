@@ -2,8 +2,6 @@ import { createStore, compose, applyMiddleware } from "redux";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import thunk from "redux-thunk";
 import reducer from "./reducers";
-import { productsService } from "../api/products/products";
-import { subcategoriesService } from "../api/subcategories/subcategory";
 
 const store = createStore(
   reducer,

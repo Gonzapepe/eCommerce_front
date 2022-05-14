@@ -1,29 +1,28 @@
 import {
-  FETCH_PRODUCTS_STARTED,
-  FETCH_PRODUCTS_SUCCESS,
-  FETCH_PRODUCTS_FAILURE,
-} from "./products.types";
-
-const initialState = {
-  products: [],
+  FETCH_PRODUCT_STARTED,
+  FETCH_PRODUCT_SUCCESS,
+  FETCH_PRODUCT_FAILURE,
+} from "./product.types";
+let initialState = {
+  product: {},
   isLoading: false,
   errors: [],
 };
 
 const productsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case FETCH_PRODUCTS_STARTED:
+    case FETCH_PRODUCT_STARTED:
       return {
         ...state,
         isLoading: true,
       };
-    case FETCH_PRODUCTS_SUCCESS:
+    case FETCH_PRODUCT_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        products: action.payload,
+        product: action.payload,
       };
-    case FETCH_PRODUCTS_FAILURE:
+    case FETCH_PRODUCT_FAILURE:
       return {
         ...state,
         isLoading: false,

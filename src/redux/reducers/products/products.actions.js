@@ -1,40 +1,42 @@
 import axios from "axios";
 import {
-  FETCH_PRODUCT_STARTED,
-  FETCH_PRODUCT_SUCCESS,
-  FETCH_PRODUCT_FAILURE,
+  FETCH_PRODUCTS_SUCCESS,
+  FETCH_PRODUCTS_FAILURE,
+  FETCH_PRODUCTS_STARTED,
 } from "./products.types";
 
-export const fetchProduct = (id) => async (dispatch) => {
+export const fetchProducts = () => async (dispatch) => {
   dispatch(fetchProductsStarted());
   try {
-    const response = await axios.get(`http://localhost:4000/v1/products/${id}`);
-    console.log("RESPUESTA DEL FETCH PRODUCTS: ", response.data.data);
+    const response = await axios.get(
+      "http://localhost:4000/v1/products?category="
+    );
+    console.log("RESPUESTA DE FETCH PRODUCTS: ", response.data.data);
     dispatch(fetchProductsSuccess(response.data.data));
-    return response.data;
   } catch (err) {
     dispatch(fetchProductsFailure(err));
   }
 };
 
+// Fetch all products functions
 const fetchProductsStarted = () => {
   return {
-    type: FETCH_PRODUCT_STARTED,
-  };
-};
-
-const fetchProductsFailure = (err) => {
-  return {
-    type: FETCH_PRODUCT_FAILURE,
-    payload: {
-      err,
-    },
+    type: FETCH_PRODUCTS_STARTED,
   };
 };
 
 const fetchProductsSuccess = (data) => {
   return {
-    type: FETCH_PRODUCT_SUCCESS,
+    type: FETCH_PRODUCTS_SUCCESS,
     payload: data,
+  };
+};
+
+const fetchProductsFailure = (err) => {
+  return {
+    type: FETCH_PRODUCTS_FAILURE,
+    payload: {
+      err,
+    },
   };
 };
