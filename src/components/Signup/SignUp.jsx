@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 
 // Redux toolkit
 import { useDispatch, useSelector } from "react-redux";
-import { postRegister } from "../../redux/reducers/register";
+import { register } from "../../redux/reducers/user/user.actions";
 import { Link } from "react-router-dom";
 
 import { useNavigate } from "react-router-dom";
@@ -13,7 +13,7 @@ const SignUp = () => {
   const [formData, setFormData] = useState({});
   const navigate = useNavigate();
   const formRef = useRef();
-  const { errors, userCreated } = useSelector((state) => state.register);
+  const { userCreated, errors } = useSelector((state) => state.user);
 
   // useEffect(() => {
   //   console.log("ERRORES: ", errors);
@@ -26,7 +26,7 @@ const SignUp = () => {
 
   useEffect(() => {
     console.log("USUARIO CREADO: ", userCreated);
-    if (userCreated !== null) {
+    if (userCreated !== false) {
       navigate("/log-in");
     }
   }, [userCreated]);
@@ -39,7 +39,7 @@ const SignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(postRegister(formData));
+    dispatch(register(formData));
     formRef.current.reset();
   };
 

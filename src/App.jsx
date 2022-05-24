@@ -13,7 +13,6 @@ import { loadUser } from "./redux/reducers/user/user.actions";
 import Home from "./components/Home/Home";
 import LogIn from "./components/Login/LogIn";
 import SignUp from "./components/Signup/SignUp";
-import Dashboard from "./components/Dashboard/Dashboard";
 import Products from "./components/Products/Products";
 import Payment from "./layouts/payment/payment";
 import Feedback from "./layouts/payment/feedback";
@@ -23,10 +22,12 @@ import NotFound from "./layouts/404/404";
 import AccountSettings from "./components/Settings/AccountSettings";
 import EditSettings from "./components/Settings/EditSettings";
 import Spinner from "./components/Spinner/Spinner";
+import Dashboard from "./components/Dashboard/Dashboard";
+import AddProduct from "./components/Dashboard/AddProduct";
+import AddSubcategory from "./components/Dashboard/AddSubcategory";
+import EditProduct from "./components/Dashboard/EditProduct";
+import EditSubcategory from "./components/Dashboard/EditSubcategory";
 import "./index.css";
-
-// Cookies
-import Cookies from "js-cookie";
 
 /* Components */
 
@@ -57,6 +58,16 @@ function App() {
     }
   };
 
+  const generateAdminRoute = (path, component) => {
+    if (data && data.role === "ADMINISTRATOR" && !isLoading) {
+      return <Route path={path} element={component} exact />;
+    } else if (isLoading) {
+      return <Route path={path} element={<Spinner />} exact />;
+    } else if (!data && !isLoading) {
+      return <Route path={path} element={<NotFound />} exact />;
+    }
+  };
+
   return (
     <>
       <Routes>
@@ -64,7 +75,6 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/log-in" element={<LogIn />} />
         <Route path="/sign-up" element={<SignUp />} />
-        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/products" element={<Products />} />
         <Route
           path="/payment"
@@ -87,6 +97,13 @@ function App() {
         {/* Configuración de la cuenta */}
         {generateRoute("/settings", <AccountSettings />)}
         {generateRoute("/settings/edit", <EditSettings />)}
+
+        {/* Configuracion para el administrador */}
+        {generateAdminRoute("/dashboard", <Dashboard />)}
+        {generateAdminRoute("/dashboard/add/product", <AddProduct />)}
+        {generateAdminRoute("/dashboard/edit/product", <EditProduct />)}
+        {generateAdminRoute("/dashboard/add/subcategory", <AddSubcategory />)}
+        {generateAdminRoute("/dashboard/edit/subcategory", <EditSubcategory />)}
 
         <Route path="*" element={<NotFound />} />
       </Routes>

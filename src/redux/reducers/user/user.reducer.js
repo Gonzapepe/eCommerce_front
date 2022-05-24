@@ -1,4 +1,3 @@
-import Cookies from "js-cookie";
 import {
   USER_LOADING,
   USER_LOADED,
@@ -8,6 +7,8 @@ import {
   LOGOUT_USER_SUCCESS,
   UPDATE_USER_SUCCESS,
   UPDATE_USER_FAILURE,
+  REGISTER_USER_FAILURE,
+  REGISTER_USER_SUCCESS,
 } from "./user.types";
 
 let initialState = {
@@ -15,6 +16,7 @@ let initialState = {
   data: null,
   isLoading: false,
   errors: [],
+  userCreated: false,
 };
 
 const usersReducer = (state = initialState, action) => {
@@ -30,12 +32,21 @@ const usersReducer = (state = initialState, action) => {
         isLoading: false,
         data: action.payload,
       };
+    case REGISTER_USER_FAILURE:
     case AUTH_ERROR:
       return {
         ...state,
         isLoading: false,
         errors: action.payload,
       };
+    case REGISTER_USER_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        userCreated: true,
+        errors: [],
+      };
+
     case LOGIN_USER_SUCCESS:
       localStorage.setItem("token", action.payload.token);
       return {

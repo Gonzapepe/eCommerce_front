@@ -61,7 +61,7 @@ const Header = ({ user }) => {
                 <p>{user.name}</p>
               </button>
               {/* Menu item */}
-              {isOpen && <MenuItem logOut={logOut} />}
+              {isOpen && <MenuItem logOut={logOut} role={user?.role} />}
             </div>
             {/* Shopping Cart Icon */}
             <div

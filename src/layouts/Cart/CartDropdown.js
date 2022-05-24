@@ -31,7 +31,7 @@ const CartDropdown = () => {
           <p>X</p>
         </div>
         <div>
-          <p className="text-lg font-semibold text-black  mr-3">
+          <p className="text-lg font-semibold text-black mr-3">
             Carrito de compras
           </p>
         </div>

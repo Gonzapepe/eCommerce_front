@@ -6,6 +6,8 @@ import {
   LOGIN_USER_FAILURE,
   UPDATE_USER_SUCCESS,
   UPDATE_USER_FAILURE,
+  REGISTER_USER_SUCCESS,
+  REGISTER_USER_FAILURE,
 } from "./user.types";
 import axios from "axios";
 
@@ -22,6 +24,23 @@ export const loadUser = () => async (dispatch) => {
     dispatch(userLoadedSuccess(response.data.data));
   } catch (err) {
     console.log("ERROR DEL LOAD USER", err);
+  }
+};
+
+// Registrarse
+export const register = (user) => async (dispatch) => {
+  console.log("DATOS DEL FORM: ", user);
+  try {
+    const response = await axios.post(
+      "http://localhost:4000/v1/auth/register",
+      user,
+      { headers: { "Content-Type": "application/json" } }
+    );
+    console.log("RESPUESTA: ", response.data);
+    dispatch(registerUserSuccess(response));
+  } catch (err) {
+    console.log("ERROR RESPONSE DEL REGISTER: ", err.response.data);
+    dispatch(registerUserFailure(err.response.data));
   }
 };
 
@@ -90,6 +109,7 @@ const userLoadedSuccess = (data) => {
   };
 };
 
+// Login user
 const loginUserSuccess = (token) => {
   return {
     type: LOGIN_USER_SUCCESS,
@@ -105,5 +125,20 @@ const loginUserFailure = (error) => {
     payload: {
       error,
     },
+  };
+};
+
+// Register user
+const registerUserSuccess = (data) => {
+  return {
+    type: REGISTER_USER_SUCCESS,
+    payload: data,
+  };
+};
+
+const registerUserFailure = (error) => {
+  return {
+    type: REGISTER_USER_FAILURE,
+    payload: error,
   };
 };
