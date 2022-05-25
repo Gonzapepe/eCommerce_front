@@ -1,12 +1,23 @@
 import React from "react";
 import DashboardSidebar from "../../layouts/DashboardSidebar/DashboardSidebar";
+import { useDispatch } from "react-redux";
+import { addProduct } from "../../redux/reducers/products/products.actions";
+import { useNavigate } from "react-router-dom";
+import FileInput from "../../layouts/FileInput/FileInput";
 
 const AddProduct = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const onFileChange = (files) => {
+    console.log(files);
+  };
+
   return (
     <div className="relative w-full h-screen flex flex-row">
       <DashboardSidebar />
-      <div className="w-full h-screen bg-slate-200">
-        <div className="absolute left-1/3 top-10 p-10 max-w-2xl bg-white rounded">
+      <div className="w-full h-screen bg-slate-200 ">
+        <div className="absolute left-1/3 top-10 p-10 max-w-2xl bg-white rounded shadow-xl">
           <div className="header">
             <p className="font-semibold text-xl ">Añadir productos</p>
           </div>
@@ -74,7 +85,7 @@ const AddProduct = () => {
             <select
               name="category"
               id="category"
-              className="w-30 text-center border p-1 rounded"
+              className="mt-2 w-30 text-center border p-1 rounded"
             >
               <option value={null}>Elegir categoría</option>
               <option value={"muebles"}>Muebles</option>
@@ -84,6 +95,10 @@ const AddProduct = () => {
               <option value={"accesorios"}>Accesorios</option>
               <option value={"pinturas"}>Pinturas</option>
             </select>
+          </div>
+          {/* Subir Imágen */}
+          <div className="mt-5 flex items-center justify-center">
+            <FileInput onFileChange={(files) => onFileChange(files)} />
           </div>
         </div>
       </div>
