@@ -1,3 +1,8 @@
 .drop-file-input.dragover {
     opacity: 0.6;
 }
+
+.drop-file-preview__item__del {
+    transform: translateY(-50%);
+    transition: opacity 0.3s ease;
+}

@@ -100,6 +100,15 @@ const AddProduct = () => {
           <div className="mt-5 flex items-center justify-center">
             <FileInput onFileChange={(files) => onFileChange(files)} />
           </div>
+          <div className="flex flex-row justify-end">
+            <button className=" text-blue-500 rounded shadow-md py-2 px-4 ml-2">
+              Cancelar
+            </button>
+            <button className="ml-5 text-white bg-blue-500 rounded shadow-md py-2 px-4 ml-2">
+              {" "}
+              Añadir{" "}
+            </button>
+          </div>
         </div>
       </div>
     </div>
