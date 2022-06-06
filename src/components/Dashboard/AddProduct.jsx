@@ -24,11 +24,19 @@ const AddProduct = () => {
     });
   };
 
+  const handleCancel = (e) => {
+    e.preventDefault();
+    formRef.current.reset();
+    setFormData({});
+    navigate("/dashboard");
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("DATA DEL FORM DATA: ", formData);
-    // dispatch(addProduct(formData));
+    dispatch(addProduct(formData));
     formRef.current.reset();
+    setFormData({});
   };
 
   return (
@@ -125,7 +133,10 @@ const AddProduct = () => {
               <FileInput onFileChange={(files) => onFileChange(files)} />
             </div>
             <div className="flex flex-row justify-end mt-5">
-              <button className=" text-blue-500 rounded shadow-md py-2 px-4 ml-2">
+              <button
+                onClick={(e) => handleCancel(e)}
+                className=" text-blue-500 rounded shadow-md py-2 px-4 ml-2"
+              >
                 Cancelar
               </button>
               <button

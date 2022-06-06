@@ -13,8 +13,16 @@ const FileInput = ({ onFileChange }) => {
 
   const onFileDrop = (e) => {
     const newFile = e.target.files[0];
-    if (newFile) {
+
+    if (
+      (newFile.type === "image/jpeg" ||
+        newFile.type === "image/png" ||
+        newFile.type === "image/jpg") &&
+      fileList.length < 8
+    ) {
+      console.log("NUEVO ARCHIVO: ", newFile);
       const updatedList = [...fileList, newFile];
+
       setFileList(updatedList);
       onFileChange(updatedList);
     }

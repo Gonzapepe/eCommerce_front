@@ -29,6 +29,9 @@ export const addProduct = (product) => async (dispatch) => {
     console.log("RESPUESTA ADD PRODUCT", response.data.data);
     dispatch(addProductSuccess(response.data.data));
   } catch (err) {
+    console.log("ERROR REQUEST: ", err.request);
+    console.log("ERROR RESPONSE: ", err.response);
+    console.log("ERROR MESSAGE: ", err.message);
     dispatch(addProductFailure(err));
   }
 };
@@ -41,6 +44,9 @@ export const fetchProduct = (id) => async (dispatch) => {
     dispatch(fetchProductSuccess(response.data.data));
     return response.data;
   } catch (err) {
+    console.log("ERROR REQUEST: ", err.request);
+    console.log("ERROR RESPONSE: ", err.response);
+    console.log("ERROR MESSAGE: ", err.message);
     dispatch(fetchProductFailure(err));
   }
 };
