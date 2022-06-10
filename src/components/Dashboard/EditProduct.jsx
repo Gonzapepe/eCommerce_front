@@ -9,12 +9,12 @@ const EditProduct = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { products, isLoading } = useSelector((state) => state.products);
-
+  let subcategories = [];
   useEffect(() => {
     dispatch(fetchProducts());
   }, [dispatch, fetchProducts]);
   useEffect(() => {
-    console.log("PRODUCTOS: ", products);
+    console.log("ESTADO: ", products);
   }, [products]);
 
   if (isLoading) {
@@ -22,27 +22,46 @@ const EditProduct = () => {
   }
 
   return (
-    <div className="relative w-full h-screen flex flex-row">
-      <DashboardSidebar />
-      <div className="w-full h-screen ">
-        <div className="absolute left-1/2 top-1/3 ">
-          <table>
+    <div className="relative h-screen flex flex-row">
+      <aside className="w-3/12">
+        <DashboardSidebar />
+      </aside>
+      <div className="m-auto flex align-center justify-between w-9/12 h-screen ">
+        <div className="m-auto ">
+          <table className="w-full">
             <thead className="">
               <tr>
-                <th>Categoría</th>
-                <th>Subcategoría(s)</th>
-                <th>Nombre</th>
-                <th>Editar</th>
+                <th className="w-1/5 text-center border border-gray-400 font-normal px-2 py-2">
+                  Categoría
+                </th>
+                <th className="w-1/5 text-center border border-gray-400 font-normal px-2 py-2">
+                  Subcategoría(s)
+                </th>
+                <th className="w-2/5 text-center border border-gray-400 font-normal px-2 py-2">
+                  Nombre
+                </th>
+                <th className="w-1/ text-center border border-gray-400 font-normal px-2 py-2">
+                  Editar
+                </th>
               </tr>
             </thead>
             <tbody>
               {products.map((product) => (
-                <tr>
-                  <td>{product.category}</td>
-                  <td>{product.subcategories}</td>
-                  <td>{product.title}</td>
-                  <td>
-                    <button></button>
+                <tr
+                  className="border border-gray-400 border-b h-10"
+                  key={product.id}
+                >
+                  {product.subcategories.forEach((subcategory) => {
+                    subcategories.push(subcategory.name);
+                  })}
+                  <td className="text-center border-gray-400 border-r">
+                    {product.category}
+                  </td>
+                  <td className="text-center border-gray-400 border-r">
+                    {subcategories.join(",")}
+                  </td>
+                  <td className="text-center border-gray-400 border-r">
+                    {product.title}
                   </td>
                 </tr>
               ))}

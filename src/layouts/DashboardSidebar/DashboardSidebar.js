@@ -7,7 +7,7 @@ import { ReactComponent as Plus } from "../../assets/icons/Plus.svg";
 const DashboardSidebar = () => {
   return (
     <div>
-      <div className="fixed top-0 bottom-0  p-2 w-80 h-screen text-center bg-white">
+      <div className="fixed top-0 bottom-0  p-2 w-3/12 h-screen text-center bg-white">
         <div className="h-10 border-b border-black border-solid">
           <p className="text-lg font-semibold text-black ">Admin Dashboard</p>
         </div>
