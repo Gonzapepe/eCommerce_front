@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchProduct } from "../../redux/reducers/product/product.actions";
 import FileInput from "../../layouts/FileInput/FileInput";
+import Spinner from "../../components/Spinner/Spinner";
 
 const EditProductModal = ({ id }) => {
   const [formData, setFormData] = useState({});
-  const { product } = useSelector((state) => state.product);
+  const { product, isLoading } = useSelector((state) => state.product);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -13,6 +14,7 @@ const EditProductModal = ({ id }) => {
   }, [dispatch, id]);
 
   useEffect(() => {
+    console.log("PRODUCTO TITULO: ", product);
     if (formData.length === undefined || formData.length === null) {
       setFormData({
         title: product.title,
@@ -22,7 +24,9 @@ const EditProductModal = ({ id }) => {
         category: product.category,
         images: product.images,
       });
+      console.log("ADENTRO DEL IF FORMDATA: ", formData);
     }
+    console.log("AFUERA DEL IF: ", formData);
   }, [product]);
 
   const onFileChange = (files) => {
@@ -42,6 +46,10 @@ const EditProductModal = ({ id }) => {
     e.preventDefault();
   };
 
+  if (isLoading) {
+    return <Spinner />;
+  }
+
   return (
     <div className="absolute flex w-screen h-screen bg-black/75">
       <div className="z-50 overflow-hidden w-2/4 m-auto align-center bg-white accent-white rounded">
@@ -58,6 +66,7 @@ const EditProductModal = ({ id }) => {
               Nombre del producto
             </label>
             <input
+              value={formData.title}
               onChange={(e) => handleChange(e)}
               placeholder="título"
               type="text"
@@ -73,6 +82,7 @@ const EditProductModal = ({ id }) => {
               Descripción
             </label>
             <input
+              value={formData.description}
               onChange={(e) => handleChange(e)}
               type="text"
               id="description"
@@ -89,6 +99,7 @@ const EditProductModal = ({ id }) => {
                 Stock
               </label>
               <input
+                value={formData.stock}
                 onChange={(e) => handleChange(e)}
                 type="number"
                 id="stock"
@@ -98,10 +109,11 @@ const EditProductModal = ({ id }) => {
               />
             </div>
             <div className="ml-3">
-              <label for="stock" className="font-semibold text-base">
+              <label for="price" className="font-semibold text-base">
                 Precio
               </label>
               <input
+                value={formData.price}
                 onChange={(e) => handleChange(e)}
                 type="text"
                 id="price"
@@ -122,6 +134,7 @@ const EditProductModal = ({ id }) => {
               name="category"
               id="category"
               className="mt-2 w-30 text-center border p-1 rounded"
+              value={formData.category}
             >
               <option value={null}>Elegir categoría</option>
               <option value={"muebles"}>Muebles</option>

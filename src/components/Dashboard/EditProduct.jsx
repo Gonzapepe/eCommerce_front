@@ -12,8 +12,14 @@ const EditProduct = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
+  const [id, setId] = useState("");
   const { products, isLoading } = useSelector((state) => state.products);
   let subcategories = [];
+
+  const handleModal = (id) => {
+    setIsOpen(!isOpen);
+    setId(id);
+  };
   useEffect(() => {
     dispatch(fetchProducts());
   }, [dispatch, fetchProducts]);
@@ -70,7 +76,7 @@ const EditProduct = () => {
                   <td className="flex  justify-center items-center h-20">
                     <button
                       className="rounded bg-blue-500 p-2 mr-2 "
-                      onClick={() => setIsOpen(!isOpen)}
+                      onClick={() => handleModal(product.id)}
                     >
                       <Edit width="14" height="14" />
                     </button>
@@ -84,7 +90,7 @@ const EditProduct = () => {
           </table>
         </div>
       </div>
-      {isOpen && <EditProductModal />}
+      {isOpen && <EditProductModal id={id} />}
     </div>
   );
 };
