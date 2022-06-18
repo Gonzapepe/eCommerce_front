@@ -148,7 +148,10 @@ const EditProductModal = ({ id }) => {
 
           {/* Subir imagen */}
           <div className="mt-5 flex items-center justify-center">
-            <FileInput onFileChange={(files) => onFileChange(files)} />
+            <FileInput
+              files={product.images}
+              onFileChange={(files) => onFileChange(files)}
+            />
           </div>
 
           {/* Botones */}
