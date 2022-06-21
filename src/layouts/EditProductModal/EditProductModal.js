@@ -4,9 +4,10 @@ import { fetchProduct } from "../../redux/reducers/product/product.actions";
 import FileInput from "../../layouts/FileInput/FileInput";
 import Spinner from "../../components/Spinner/Spinner";
 
-const EditProductModal = ({ id }) => {
+const EditProductModal = ({ id, handleModal }) => {
   const [formData, setFormData] = useState({});
-  const { product, isLoading } = useSelector((state) => state.product);
+  const { product } = useSelector((state) => state.product);
+  const isLoading = useSelector((state) => state.product.isLoading);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -47,7 +48,11 @@ const EditProductModal = ({ id }) => {
   };
 
   if (isLoading) {
-    return <Spinner />;
+    return (
+      <div className="absolute flex w-screen h-screen bg-black/75">
+        <Spinner />
+      </div>
+    );
   }
 
   return (
@@ -148,15 +153,15 @@ const EditProductModal = ({ id }) => {
 
           {/* Subir imagen */}
           <div className="mt-5 flex items-center justify-center">
-            <FileInput
-              files={product.images}
-              onFileChange={(files) => onFileChange(files)}
-            />
+            <FileInput onFileChange={(files) => onFileChange(files)} />
           </div>
 
           {/* Botones */}
           <div className="flex flex-row justify-end mt-5">
-            <button className="text-blue-500 rounded shadow-md py-2 px-4 ml-2">
+            <button
+              className="text-blue-500 rounded shadow-md py-2 px-4 ml-2"
+              onClick={() => handleModal()}
+            >
               Cancelar
             </button>
             <button

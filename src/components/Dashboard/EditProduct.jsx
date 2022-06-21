@@ -18,8 +18,12 @@ const EditProduct = () => {
 
   const handleModal = (id) => {
     setIsOpen(!isOpen);
+    if (id === undefined) {
+      id = null;
+    }
     setId(id);
   };
+
   useEffect(() => {
     dispatch(fetchProducts());
   }, [dispatch, fetchProducts]);
@@ -75,12 +79,12 @@ const EditProduct = () => {
                   </td>
                   <td className="flex  justify-center items-center h-20">
                     <button
-                      className="rounded bg-blue-500 p-2 mr-2 "
+                      className="rounded bg-blue-500 p-2 mr-2 hover:opacity-60 "
                       onClick={() => handleModal(product.id)}
                     >
                       <Edit width="14" height="14" />
                     </button>
-                    <button className="rounded bg-red-500 p-2 ">
+                    <button className="rounded bg-red-500 p-2 hover:opacity-60">
                       <Trash width="14" height="14" />
                     </button>
                   </td>
@@ -90,7 +94,7 @@ const EditProduct = () => {
           </table>
         </div>
       </div>
-      {isOpen && <EditProductModal id={id} />}
+      {isOpen && <EditProductModal handleModal={handleModal} id={id} />}
     </div>
   );
 };
