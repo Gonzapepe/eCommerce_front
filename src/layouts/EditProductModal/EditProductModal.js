@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchProduct } from "../../redux/reducers/product/product.actions";
+import {
+  fetchProduct,
+  updateProduct,
+} from "../../redux/reducers/product/product.actions";
 import FileInput from "../../layouts/FileInput/FileInput";
 import Spinner from "../../components/Spinner/Spinner";
 
@@ -43,8 +46,10 @@ const EditProductModal = ({ id, handleModal }) => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    await dispatch(updateProduct(formData));
+    handleModal();
   };
 
   if (isLoading) {
