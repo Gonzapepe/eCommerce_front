@@ -4,6 +4,7 @@ import {
   fetchProduct,
   updateProduct,
 } from "../../redux/reducers/product/product.actions";
+import { deleteImage } from "../../redux/reducers/images/images.actions";
 import FileInput from "../../layouts/FileInput/FileInput";
 import Spinner from "../../components/Spinner/Spinner";
 
@@ -53,6 +54,11 @@ const EditProductModal = ({ id, handleModal }) => {
     e.preventDefault();
     dispatch(updateProduct(formData));
     handleModal();
+  };
+
+  const removeImage = (e, id) => {
+    e.preventDefault();
+    dispatch(deleteImage(product.id, id));
   };
 
   if (isLoading) {
@@ -176,7 +182,10 @@ const EditProductModal = ({ id, handleModal }) => {
                           src={`http://localhost:4000/${image.path}`}
                           alt={index}
                         />
-                        <button className="absolute top-1/2 my-auto hidden text-xs text-white p-2 rounded font-semibold uppercase bg-red-500 group-hover:block hover:bg-red-700">
+                        <button
+                          className="absolute top-1/2 my-auto hidden text-xs text-white p-2 rounded font-semibold uppercase bg-red-500 group-hover:block hover:bg-red-700"
+                          onClick={(e) => removeImage(e, image.id)}
+                        >
                           eliminar
                         </button>
                       </div>

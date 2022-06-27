@@ -50,7 +50,6 @@ const cartReducer = (state = initialState, action) => {
         errors: action.payload,
       };
     case REMOVE_FROM_CART_SUCCESS:
-      console.log("ACTION PAYLOAD: ", action.payload);
       return {
         ...state,
         cartItems: state.cartItems.filter(
