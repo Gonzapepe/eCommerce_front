@@ -11,7 +11,7 @@ import {
 
 export const updateProduct = (product) => async (dispatch) => {
   const token = localStorage.getItem("token");
-
+  console.log("PRODUCTO: ", product);
   try {
     // sends data as multipart/form-data instead of application/json
     const formData = new FormData();
@@ -28,8 +28,8 @@ export const updateProduct = (product) => async (dispatch) => {
       { headers: { Authorization: token } }
     );
 
-    console.log("RESPUESTA DEL UPDATE PRODUCT", response.data.data);
-    dispatch(updateProductSuccess(response.data.data));
+    console.log("RESPUESTA DEL UPDATE PRODUCT", response.data);
+    dispatch(updateProductSuccess(response.data));
   } catch (err) {
     console.log("ERROR REQUEST: ", err.request);
     console.log("ERROR RESPONSE: ", err.response);

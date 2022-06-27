@@ -19,15 +19,18 @@ const EditProductModal = ({ id, handleModal }) => {
 
   useEffect(() => {
     console.log("PRODUCTO TITULO: ", product);
-    if (formData.length === undefined || formData.length === null) {
-      setFormData({
-        title: product.title,
-        description: product.description,
-        stock: product.stock,
-        price: product.price,
-        category: product.category,
-        images: product.images,
-      });
+    if (product) {
+      if (formData.length === undefined || formData.length === null) {
+        setFormData({
+          id: id,
+          title: product.title,
+          description: product.description,
+          stock: product.stock,
+          price: product.price,
+          category: product.category,
+          images: product.images,
+        });
+      }
       console.log("ADENTRO DEL IF FORMDATA: ", formData);
     }
     console.log("AFUERA DEL IF: ", formData);
@@ -46,9 +49,9 @@ const EditProductModal = ({ id, handleModal }) => {
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    await dispatch(updateProduct(formData));
+    dispatch(updateProduct(formData));
     handleModal();
   };
 
@@ -61,7 +64,7 @@ const EditProductModal = ({ id, handleModal }) => {
   }
 
   return (
-    <div className="absolute flex w-screen h-screen bg-black/75">
+    <div className="absolute overflow-y-scroll flex w-screen h-full bg-black/75">
       <div className="z-50 overflow-hidden w-2/4 m-auto align-center bg-white accent-white rounded">
         <form
           onSubmit={handleSubmit}
@@ -156,22 +159,54 @@ const EditProductModal = ({ id, handleModal }) => {
             </select>
           </div>
 
+          {/* Añadir imágenes */}
+          <div className="mt-5">
+            {product.images && product.images.length > 0 ? (
+              <div className="flex flex-col space-y-2">
+                <span className="font-semibold text-lg"> Imágenes </span>
+                <div className="flex flex-row justify-between items-center">
+                  {product.images.map((image, index) => {
+                    return (
+                      <div
+                        className="flex rounded align-center justify-center relative group w-40 h-30"
+                        key={index}
+                      >
+                        <img
+                          className=" h-40 w-30 object-cover group-hover:brightness-50 "
+                          src={`http://localhost:4000/${image.path}`}
+                          alt={index}
+                        />
+                        <button className="absolute top-1/2 my-auto hidden text-xs text-white p-2 rounded font-semibold uppercase bg-red-500 group-hover:block hover:bg-red-700">
+                          eliminar
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            ) : (
+              <p className="text-black font-semibold ">
+                éste producto no tiene imágenes{" "}
+              </p>
+            )}
+          </div>
+
           {/* Subir imagen */}
-          <div className="mt-5 flex items-center justify-center">
+          <div className="mt-10 flex items-center justify-center">
             <FileInput onFileChange={(files) => onFileChange(files)} />
           </div>
 
           {/* Botones */}
-          <div className="flex flex-row justify-end mt-5">
+          <div className="flex flex-row justify-end mt-10">
             <button
-              className="text-blue-500 rounded shadow-md py-2 px-4 ml-2"
+              className="text-blue-500 rounded shadow-md py-2 px-4 ml-2 hover:bg-slate-300"
               onClick={() => handleModal()}
             >
               Cancelar
             </button>
             <button
               type="submit"
-              className="ml-5 text-white bg-blue-500 rounded shadow-md py-2 px-4 ml-2"
+              className="ml-5 text-white bg-blue-500 rounded shadow-md py-2 px-4 ml-2 hover:bg-blue-600"
             >
               Añadir
             </button>
