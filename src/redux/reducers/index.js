@@ -7,6 +7,7 @@ import productReducer from "./product/product.reducer";
 import subcategoriesReducer from "./subcategory/subcategory.reducer";
 import productsReducer from "./products/products.reducer";
 import productSubcategoriesReducer from "./productSubcategories/productSubcategories.reducer";
+import imagesReducer from "./images/images.reducer";
 
 const reducer = combineReducers({
   user: usersReducer,
@@ -15,6 +16,7 @@ const reducer = combineReducers({
   products: productsReducer,
   subcategories: subcategoriesReducer,
   productSubcategories: productSubcategoriesReducer,
+  images: imagesReducer,
   // cart: cartSlice,
   // register: registerSlice,
   // login: loginSlice,

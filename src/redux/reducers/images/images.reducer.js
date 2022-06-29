@@ -7,7 +7,7 @@ import {
 } from "./images.types";
 
 const initialState = {
-  image: [],
+  images: [],
   isLoading: false,
   errors: [],
 };
@@ -22,7 +22,7 @@ const imageReducer = (state = initialState, action) => {
     case FETCH_IMAGES_SUCCESS:
       return {
         ...state,
-        image: action.payload,
+        images: action.payload,
         isLoading: false,
       };
     case IMAGES_DELETE_FAILURE:
@@ -31,12 +31,12 @@ const imageReducer = (state = initialState, action) => {
         ...state,
         errors: action.payload,
       };
-    case IMAGES_DELETE_SUCCESS: {
+    case IMAGES_DELETE_SUCCESS:
       return {
         ...state,
         images: state.images.filter((image) => image.id !== action.payload.id),
       };
-    }
+
     default:
       return state;
   }

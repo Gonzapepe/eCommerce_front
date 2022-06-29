@@ -4,6 +4,7 @@ import {
   fetchProduct,
   updateProduct,
 } from "../../redux/reducers/product/product.actions";
+import { fetchImages } from "../../redux/reducers/images/images.actions";
 import { deleteImage } from "../../redux/reducers/images/images.actions";
 import FileInput from "../../layouts/FileInput/FileInput";
 import Spinner from "../../components/Spinner/Spinner";
@@ -11,11 +12,13 @@ import Spinner from "../../components/Spinner/Spinner";
 const EditProductModal = ({ id, handleModal }) => {
   const [formData, setFormData] = useState({});
   const { product } = useSelector((state) => state.product);
+  const { images } = useSelector((state) => state.images);
   const isLoading = useSelector((state) => state.product.isLoading);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchProduct(id));
+    dispatch(fetchImages(id));
   }, [dispatch, id]);
 
   useEffect(() => {
@@ -29,7 +32,7 @@ const EditProductModal = ({ id, handleModal }) => {
           stock: product.stock,
           price: product.price,
           category: product.category,
-          images: product.images,
+          images: images,
         });
       }
       console.log("ADENTRO DEL IF FORMDATA: ", formData);
@@ -171,7 +174,7 @@ const EditProductModal = ({ id, handleModal }) => {
               <div className="flex flex-col space-y-2">
                 <span className="font-semibold text-lg"> Imágenes </span>
                 <div className="flex flex-row justify-between items-center">
-                  {product.images.map((image, index) => {
+                  {images.map((image, index) => {
                     return (
                       <div
                         className="flex rounded align-center justify-center relative group w-40 h-30"

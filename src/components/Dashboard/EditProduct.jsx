@@ -7,6 +7,7 @@ import Spinner from "../Spinner/Spinner";
 import EditProductModal from "../../layouts/EditProductModal/EditProductModal";
 import { ReactComponent as Edit } from "../../assets/icons/Edit.svg";
 import { ReactComponent as Trash } from "../../assets/icons/trash.svg";
+import "./editProduct.css";
 
 const EditProduct = () => {
   const dispatch = useDispatch();
@@ -82,10 +83,10 @@ const EditProduct = () => {
                       className="rounded bg-blue-500 p-2 mr-2 hover:opacity-60 "
                       onClick={() => handleModal(product.id)}
                     >
-                      <Edit width="14" height="14" />
+                      <Edit className="white" width="14" height="14" />
                     </button>
                     <button className="rounded bg-red-500 p-2 hover:opacity-60">
-                      <Trash width="14" height="14" />
+                      <Trash className="white" width="14" height="14" />
                     </button>
                   </td>
                 </tr>
