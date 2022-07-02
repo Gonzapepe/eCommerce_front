@@ -56,8 +56,8 @@ export const login = (user) => async (dispatch) => {
     dispatch(loginUserSuccess(token));
     return response.data.data;
   } catch (err) {
-    console.log("ERROR:", err);
-    dispatch(loginUserFailure(err));
+    console.log("ERROR:", err.response.data);
+    dispatch(loginUserFailure(err.response.data));
   }
 };
 
@@ -122,9 +122,7 @@ const loginUserSuccess = (token) => {
 const loginUserFailure = (error) => {
   return {
     type: LOGIN_USER_FAILURE,
-    payload: {
-      error,
-    },
+    payload: error,
   };
 };
 

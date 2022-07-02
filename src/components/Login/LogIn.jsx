@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 // RTK
 import { useDispatch, useSelector } from "react-redux";
-import { postLogin } from "../../redux/reducers/login";
 import { login } from "../../redux/reducers/user/user.actions";
 // React-router-dom
 import { Link } from "react-router-dom";
@@ -41,7 +40,9 @@ const LogIn = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch(login(formData));
-    formRef.current.reset();
+    if (errors === null) {
+      formRef.current.reset();
+    }
   };
 
   return (
@@ -103,6 +104,7 @@ const LogIn = () => {
             </label>
             {/* ERRORES DE CONTRASEÑA O LOGIN GENERAL */}
             <div>
+              {console.log("ERRORES: ", errors)}
               {errors.errorsValidation
                 ? errors.errorsValidation.map((error, index) => {
                     console.log("ERROR: ", error);

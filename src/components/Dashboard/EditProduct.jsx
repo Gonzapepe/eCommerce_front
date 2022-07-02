@@ -37,13 +37,16 @@ const EditProduct = () => {
   }
 
   return (
-    <div className="relative h-screen flex flex-row">
+    <div className=" h-screen flex flex-row">
       <aside className="w-3/12">
         <DashboardSidebar />
       </aside>
       <div className="m-auto flex align-center justify-between w-9/12 h-screen ">
-        <div className="m-auto ">
-          <table className="w-full bg-white">
+        <div className="m-auto w-full bg-white">
+          <div className="flex flex-row justify-between mb-5">
+            <p className="font-bold text-2xl"> Editar Productos</p>
+          </div>
+          <table className="w-full rounded">
             <thead className="">
               <tr>
                 <th className="w-1/5 font-bold text-center border border-gray-400  px-2 py-2">

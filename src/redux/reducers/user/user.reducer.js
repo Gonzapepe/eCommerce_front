@@ -54,6 +54,10 @@ const usersReducer = (state = initialState, action) => {
         token: action.payload.token,
       };
     case LOGIN_USER_FAILURE:
+      return {
+        ...state,
+        errors: action.payload,
+      };
     case LOGOUT_USER_SUCCESS:
       localStorage.removeItem("token");
       return {
