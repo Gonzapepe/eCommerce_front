@@ -23,7 +23,7 @@ export const loadUser = () => async (dispatch) => {
     console.log("RESPUESTA DEL LOAD USER: ", response.data.data);
     dispatch(userLoadedSuccess(response.data.data));
   } catch (err) {
-    console.log("ERROR DEL LOAD USER", err);
+    console.log("ERROR DEL LOAD USER", err.response.data);
   }
 };
 

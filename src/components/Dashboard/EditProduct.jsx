@@ -28,6 +28,7 @@ const EditProduct = () => {
   useEffect(() => {
     dispatch(fetchProducts());
   }, [dispatch, fetchProducts]);
+
   useEffect(() => {
     console.log("ESTADO: ", products);
   }, [products]);
@@ -64,36 +65,37 @@ const EditProduct = () => {
               </tr>
             </thead>
             <tbody>
-              {products.map((product) => (
-                <tr
-                  className="border border-gray-400 border-b h-10"
-                  key={product.id}
-                >
-                  {product.subcategories.forEach((subcategory) => {
-                    subcategories.push(subcategory.name);
-                  })}
-                  <td className="text-center border-gray-400 ">
-                    {product.category}
-                  </td>
-                  <td className="text-center border-gray-400 ">
-                    {subcategories.join(",")}
-                  </td>
-                  <td className="text-center border-gray-400 ">
-                    {product.title}
-                  </td>
-                  <td className="flex  justify-center items-center h-20">
-                    <button
-                      className="rounded bg-blue-500 p-2 mr-2 hover:opacity-60 "
-                      onClick={() => handleModal(product.id)}
-                    >
-                      <Edit className="white" width="14" height="14" />
-                    </button>
-                    <button className="rounded bg-red-500 p-2 hover:opacity-60">
-                      <Trash className="white" width="14" height="14" />
-                    </button>
-                  </td>
-                </tr>
-              ))}
+              {products &&
+                products.products.map((product) => (
+                  <tr
+                    className="border border-gray-400 border-b h-10"
+                    key={product.id}
+                  >
+                    {product.subcategories.forEach((subcategory) => {
+                      subcategories.push(subcategory.name);
+                    })}
+                    <td className="text-center border-gray-400 ">
+                      {product.category}
+                    </td>
+                    <td className="text-center border-gray-400 ">
+                      {subcategories.join(",")}
+                    </td>
+                    <td className="text-center border-gray-400 ">
+                      {product.title}
+                    </td>
+                    <td className="flex  justify-center items-center h-20">
+                      <button
+                        className="rounded bg-blue-500 p-2 mr-2 hover:opacity-60 "
+                        onClick={() => handleModal(product.id)}
+                      >
+                        <Edit className="white" width="14" height="14" />
+                      </button>
+                      <button className="rounded bg-red-500 p-2 hover:opacity-60">
+                        <Trash className="white" width="14" height="14" />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>
