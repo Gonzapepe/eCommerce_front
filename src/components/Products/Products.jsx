@@ -64,10 +64,6 @@ const Products = ({ fetchProducts, fetchUserData }) => {
     return <div>Cargando...</div>;
   }
 
-  if (products) {
-    console.log("PRODUCTOOOOOOOS: ", products);
-  }
-
   return (
     <>
       <Header user={user} />
