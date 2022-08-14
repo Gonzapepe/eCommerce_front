@@ -73,7 +73,8 @@ const Products = ({ fetchProducts, fetchUserData }) => {
         </div>
         <div className=" mt-8 ml-12 w-3/4  flex  gap-y-10 gap-x-6 ">
           {subcategories.length === 0 || subcategories.length === undefined
-            ? products.products.map((item) => {
+            ? products.products &&
+              products.products.map((item) => {
                 {
                   console.log("ITEM: ", item);
                 }
