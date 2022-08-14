@@ -40,7 +40,8 @@ const FileInput = ({ onFileChange }) => {
     <div>
       <div
         ref={wrapperRef}
-        className="drop-file-input relative w-[400px] h-44 border-2 border-dashed border-sky-700 rounded-2xl flex items-center justify-center hover:opacity-60 dragover:opacity-60"
+        className="drop-file-input relative w-[400px] h-44 border-2 border-dashed border-sky-700 rounded-2xl flex items-center justify-center
+         hover:opacity-60 dragover:opacity-60"
         onDragEnter={onDragEnter}
         onDragLeave={onDragLeave}
         onDrop={onDrop}

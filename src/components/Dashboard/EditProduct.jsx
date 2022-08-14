@@ -1,21 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import DashboardSidebar from "../../layouts/DashboardSidebar/DashboardSidebar";
 import { fetchProducts } from "../../redux/reducers/products/products.actions";
 import Spinner from "../Spinner/Spinner";
 import EditProductModal from "../../layouts/EditProductModal/EditProductModal";
 import { ReactComponent as Edit } from "../../assets/icons/Edit.svg";
 import { ReactComponent as Trash } from "../../assets/icons/trash.svg";
+import Pagination from "../../layouts/pagination/pagination";
+
 import "./editProduct.css";
 
 const EditProduct = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const search = useLocation().search;
+  const query = new URLSearchParams(search).get("");
   const [isOpen, setIsOpen] = useState(false);
   const [id, setId] = useState("");
   const { products, isLoading } = useSelector((state) => state.products);
   let subcategories = [];
+
+  console.log("USE LOCATION: ", search);
 
   const handleModal = (id) => {
     setIsOpen(!isOpen);
@@ -43,29 +49,29 @@ const EditProduct = () => {
         <DashboardSidebar />
       </aside>
       <div className="m-auto flex align-center justify-between w-9/12 h-screen ">
-        <div className="m-auto w-full bg-white">
-          <div className="flex flex-row justify-between mb-5">
-            <p className="font-bold text-2xl"> Editar Productos</p>
+        <div className="w-full bg-white">
+          <div className="m-auto mt-3 flex flex-row justify-between align-center mb-3 w-11/12">
+            <p className="ml-1 font-bold text-2xl"> Editar Productos</p>
           </div>
-          <table className="w-full rounded">
+          <table className=" justify-center align-center m-auto w-11/12 rounded">
             <thead className="">
               <tr>
-                <th className="w-1/5 font-bold text-center border border-gray-400  px-2 py-2">
+                <th className="w-1/6 font-bold text-center border border-gray-400  px-2 py-2">
                   Categoría
                 </th>
-                <th className="w-1/5 font-bold text-center border border-gray-400  px-2 py-2">
+                <th className="w-1/6 font-bold text-center border border-gray-400  px-2 py-2">
                   Subcategoría(s)
                 </th>
-                <th className="w-2/5 font-bold text-center border border-gray-400  px-2 py-2">
+                <th className="w-2/6 font-bold text-center border border-gray-400  px-2 py-2">
                   Nombre
                 </th>
-                <th className="w-1/ font-bold text-center border border-gray-400  px-2 py-2">
+                <th className="w-1/6 font-bold text-center border border-gray-400  px-2 py-2">
                   Editar
                 </th>
               </tr>
             </thead>
             <tbody>
-              {products &&
+              {products.products &&
                 products.products.map((product) => (
                   <tr
                     className="border border-gray-400 border-b h-10"
@@ -85,12 +91,12 @@ const EditProduct = () => {
                     </td>
                     <td className="flex  justify-center items-center h-20">
                       <button
-                        className="rounded bg-blue-500 p-2 mr-2 hover:opacity-60 "
+                        className="rounded bg-blue-500 p-2 mr-2 hover:bg-blue-500/50 "
                         onClick={() => handleModal(product.id)}
                       >
                         <Edit className="white" width="14" height="14" />
                       </button>
-                      <button className="rounded bg-red-500 p-2 hover:opacity-60">
+                      <button className="rounded bg-red-500 p-2 hover:bg-red-500/50">
                         <Trash className="white" width="14" height="14" />
                       </button>
                     </td>
@@ -100,6 +106,7 @@ const EditProduct = () => {
           </table>
         </div>
       </div>
+      
       {isOpen && <EditProductModal handleModal={handleModal} id={id} />}
     </div>
   );
