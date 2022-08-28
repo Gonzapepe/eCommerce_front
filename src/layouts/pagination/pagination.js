@@ -1,64 +1,38 @@
-import React, { useState } from "react";
+import React from "react";
+import { Route } from "react-router";
+import { Link } from "react-router-dom";
+import Pagination from "@material-ui/lab/Pagination";
+import PaginationItem from "@material-ui/lab/PaginationItem";
 
-const Pagination = ({ path, page, perPage }) => {
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const goToNextPage = () => {
-    setCurrentPage((page) => page + 1);
-  };
-
-  const goToPreviousPage = () => {
-    setCurrentPage((page) => page - 1);
-  };
-
-  const changePage = (e) => {
-    const pageNumber = Number(e.target.textContent);
-    setCurrentPage(pageNumber);
-  };
-
-  const getPaginationGroup = () => {
-    let start = Math.floor((currentPage - 1) / 5) * 5;
-    return new Array(perPage).fill().map((_, index) => start * index + 1);
-  };
+const MainPagination = (props) => {
+  let { path, pagesCount } = props;
 
   return (
-    <div className="pagination flex align-center justify-center">
-      <button
-        onClick={goToPreviousPage}
-        className={`prev p-2.5 bg-white border-none text-blue-600 mx-0 my-2.5 cursor-pointer ${
-          currentPage === 1
-            ? "disabled:pointer-events-none disabled:shadow-none  disabled:text-border-700"
-            : ""
-        }`}
-      >
-        Anterior
-      </button>
-      {getPaginationGroup().map((item, index) => (
-        <button
-          key={index}
-          onClick={changePage}
-          className={`paginationItem relative cursor-pointer mx-auto my-1 bg-white border-2  border-solid border-sky-800 rounded-full h-11 w-11 ${
-            currentPage === item
-              ? "active:border active:border-solid active:border-gray-800 active:border-gray-800"
-              : null
-          }`}
-        >
-          <span className="absolute top-1/2 left-1/2 transform">{item}</span>
-        </button>
-      ))}
+    <div className="general-pagination">
+      <Route>
+        {({ location }) => {
+          console.log("LOCATION FROM MAIN PAGINATION: ", location);
+          const query = new URLSearchParams(location.search);
+          const page = parseInt(query.get("page") || "1", 10);
 
-      <button
-        onClick={goToNextPage}
-        className={`next p-2.5 bg-white border-none text-blue-600 mx-0 my-2.5 cursor-pointer ${
-          currentPage === page
-            ? "disabled:pointer-events-none disabled:shadow-none disabled:text-border-700"
-            : ""
-        }`}
-      >
-        Siguiente
-      </button>
+          return (
+            <Pagination
+              variant="outlined"
+              page={page}
+              count={pagesCount}
+              renderItem={(item) => (
+                <PaginationItem
+                  component={Link}
+                  to={`${path + item.page === 1 ? "" : `?page=${item.page}`}`}
+                  {...item}
+                />
+              )}
+            />
+          );
+        }}
+      </Route>
     </div>
   );
 };
 
-export default Pagination;
+export default MainPagination;

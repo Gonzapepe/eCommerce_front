@@ -22,6 +22,7 @@ const EditProduct = () => {
   let subcategories = [];
 
   console.log("USE LOCATION: ", search);
+  console.log("QUERY: ", query);
 
   const handleModal = (id) => {
     setIsOpen(!isOpen);
@@ -106,7 +107,7 @@ const EditProduct = () => {
           </table>
         </div>
       </div>
-      
+
       {isOpen && <EditProductModal handleModal={handleModal} id={id} />}
     </div>
   );
