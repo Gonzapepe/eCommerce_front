@@ -15,14 +15,13 @@ const EditProduct = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const search = useLocation().search;
-  const query = new URLSearchParams(search).get("");
+  // const page = parseInt(query.get("page") || "1", 10);
   const [isOpen, setIsOpen] = useState(false);
   const [id, setId] = useState("");
   const { products, isLoading } = useSelector((state) => state.products);
   let subcategories = [];
 
   console.log("USE LOCATION: ", search);
-  console.log("QUERY: ", query);
 
   const handleModal = (id) => {
     setIsOpen(!isOpen);
@@ -106,6 +105,9 @@ const EditProduct = () => {
             </tbody>
           </table>
         </div>
+        {!isLoading && (
+          <Pagination path="/edit/product" pagesCount={products.last_page} />
+        )}
       </div>
 
       {isOpen && <EditProductModal handleModal={handleModal} id={id} />}

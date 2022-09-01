@@ -101,7 +101,7 @@ function App() {
         {/* Configuracion para el administrador */}
         {generateAdminRoute("/dashboard", <Dashboard />)}
         {generateAdminRoute("/dashboard/add/product", <AddProduct />)}
-        {generateAdminRoute("/dashboard/edit/product", <EditProduct />)}
+        {generateAdminRoute("/dashboard/edit/product/*", <EditProduct />)}
         {generateAdminRoute("/dashboard/add/subcategory", <AddSubcategory />)}
         {generateAdminRoute("/dashboard/edit/subcategory", <EditSubcategory />)}
 
