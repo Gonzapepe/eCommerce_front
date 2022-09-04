@@ -6,7 +6,7 @@ import {
 } from "./products.types";
 
 // Fetch all products within a category if you pass a category, otherwise just fetch all
-export const fetchProducts = (category) => async (dispatch) => {
+export const fetchProducts = (category, page) => async (dispatch) => {
   dispatch(fetchProductsStarted());
   console.log("CATEGORIA: ", category);
   try {
@@ -19,7 +19,7 @@ export const fetchProducts = (category) => async (dispatch) => {
       dispatch(fetchProductsSuccess(response.data.data));
     } else {
       const response = await axios.get(
-        `http://localhost:4000/v1/products?category=${category}`
+        `http://localhost:4000/v1/products?category=${category}&page=${page}`
       );
 
       console.log("RESPUESTA DE FETCH PRODUCTS: ", response.data.data);

@@ -10,7 +10,7 @@ const MainPagination = (props) => {
   return (
     <div className="general-pagination">
       <Routes>
-        <Route path={`${path}`}>
+        <Route path={path}>
           {() => {
             console.log("LOCATION FROM MAIN PAGINATION: ", location);
             // const page = parseInt(query.get("page") || "1", 10);
