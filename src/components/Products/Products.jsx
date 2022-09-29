@@ -5,8 +5,9 @@ import Header from "../../layouts/global/Header";
 import Subcategories from "../../layouts/subcategories/Subcategories";
 import { fetchProducts } from "../../redux/reducers/products/products.actions";
 import { useNavigate } from "react-router-dom";
-import { getUserData } from "../../redux/reducers/user";
+import { loadUser } from "../../redux/reducers/user/user.actions";
 import { fetchProductsSubcategories } from "../../redux/reducers/productSubcategories/productSubcategories.actions";
+import Box from "@mui/material/Box";
 
 const Products = ({ fetchProducts, fetchUserData }) => {
   const dispatch = useDispatch();
@@ -65,13 +66,23 @@ const Products = ({ fetchProducts, fetchUserData }) => {
   }
 
   return (
-    <>
+    <Box sx={{ width: "100%" }}>
       <Header user={user} />
-      <div className=" flex bg-slate-200  h-screen">
-        <div className=" w-1/4">
+      <Box sx={{ display: "flex" }}>
+        <Box sx={{ width: "20%" }}>
           <Subcategories parentCallback={handleCallback} />
-        </div>
-        <div className=" mt-8 ml-12 w-3/4  flex  gap-y-10 gap-x-6 ">
+        </Box>
+        <Box
+          sx={{
+            width: "80%",
+            margin: "auto",
+            display: "flex",
+            flexWrap: "wrap",
+            height: "100%",
+            alignContent: "space-between",
+            gap: "10px",
+          }}
+        >
           {subcategories.length === 0 || subcategories.length === undefined
             ? products.products &&
               products.products.map((item) => {
@@ -79,7 +90,7 @@ const Products = ({ fetchProducts, fetchUserData }) => {
                   console.log("ITEM: ", item);
                 }
                 return (
-                  <div onClick={() => onProductClick(item.id)}>
+                  <Box onClick={() => onProductClick(item.id)}>
                     <Product
                       key={item.id}
                       path={
@@ -94,7 +105,7 @@ const Products = ({ fetchProducts, fetchUserData }) => {
                       price={item.price}
                       description={item.description}
                     />
-                  </div>
+                  </Box>
                   // <div>
                   //   <h2> {item.title} </h2>
                   //   <img
@@ -124,16 +135,16 @@ const Products = ({ fetchProducts, fetchUserData }) => {
                   />
                 );
               })}
-        </div>
-      </div>
-    </>
+        </Box>
+      </Box>
+    </Box>
   );
 };
 
 // Aprovechamos para hacerlo mas limpio
 const mapDispatchToProps = (dispatch) => ({
   fetchProducts: () => dispatch(fetchProducts()),
-  fetchUserData: () => dispatch(getUserData()),
+  fetchUserData: () => dispatch(loadUser()),
 });
 
 export default connect(null, mapDispatchToProps)(Products);

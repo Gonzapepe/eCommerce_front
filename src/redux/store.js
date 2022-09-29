@@ -1,5 +1,4 @@
 import { createStore, compose, applyMiddleware } from "redux";
-import { setupListeners } from "@reduxjs/toolkit/query";
 import thunk from "redux-thunk";
 import reducer from "./reducers";
 

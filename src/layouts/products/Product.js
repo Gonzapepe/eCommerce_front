@@ -1,5 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardMedia from "@mui/material/CardMedia";
+import Typography from "@mui/material/Typography";
+import CardContent from "@mui/material/CardContent";
 
 const Product = ({ id, path, title, price, subcategories, onClick }) => {
   const navigate = useNavigate();
@@ -7,33 +12,55 @@ const Product = ({ id, path, title, price, subcategories, onClick }) => {
     navigate(`/product/${id}`);
   }
   return (
-    <div
+    <Card
+      sx={{
+        minWidth: 300,
+        maxWidth: 300,
+        minHeight: 350,
+        maxHeight: 350,
+        overflow: "hidden",
+        flex: 1,
+        flexDirection: "column",
+        width: "100%",
+        flexWrap: "wrap",
+        alignSelf: "normal",
+        cursor: "pointer",
+        marginTop: "25px",
+      }}
       key={id}
-      className="group bg-white border-solid border-gray-300 rounded-md border w-48 h-[354px]"
     >
-      <div className=" w-full aspect-w-1 aspect-h-1 overflow-hidden sm:aspect-w-2 sm:aspect-h-3">
-        <img
-          src={`http://localhost:4000/${path}`}
-          className="w-48 h-[214px] object-center object-cover group-hover:opacity-75"
-        />
-      </div>
-      <div className=" flex flex-col grow">
-        <div className=" ml-3 mt-3 flex flex-col h-10 items-start text-sm font-medium text-gray-900">
-          <p> $ {price} </p>
-          <div>
-            {subcategories
-              ? subcategories.map((subcategory) => {
-                  return <p> {subcategory.name} </p>;
-                })
-              : ""}
-          </div>
-        </div>
-        <h3 className=" ml-3 mt-3 text-sm font-medium text-gray-900">
+      <CardMedia
+        sx={{ minHeight: 200 }}
+        component="img"
+        height="200"
+        image={`http://localhost:4000/${path}`}
+        alt={title}
+      />
+
+      <CardContent>
+        <Typography
+          gutterBottom
+          variant="h6"
+          component="h5"
+          sx={{
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+          }}
+        >
           {" "}
           {title}{" "}
-        </h3>
-      </div>
-    </div>
+        </Typography>
+        <Typography component="p"> $ {price} </Typography>
+        <Typography variant="body2" color="text.secondary">
+          {subcategories
+            ? subcategories.map((subcategory) => {
+                return <p> {subcategory.name} </p>;
+              })
+            : ""}
+        </Typography>
+      </CardContent>
+    </Card>
   );
 };
 
