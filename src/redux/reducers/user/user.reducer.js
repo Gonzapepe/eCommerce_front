@@ -51,6 +51,7 @@ const usersReducer = (state = initialState, action) => {
       localStorage.setItem("token", action.payload.token);
       return {
         ...state,
+        data: action.payload.user,
         token: action.payload.token,
       };
     case LOGIN_USER_FAILURE:

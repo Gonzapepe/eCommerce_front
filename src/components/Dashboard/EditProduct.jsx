@@ -48,12 +48,12 @@ const EditProduct = () => {
       <aside className="w-3/12">
         <DashboardSidebar />
       </aside>
-      <div className="m-auto flex align-center justify-between w-9/12 h-screen ">
-        <div className="w-full bg-white">
+      <div className="m-auto flex align-center justify-between w-9/12 h-screen">
+        <div className="w-full bg-gray">
           <div className="m-auto mt-3 flex flex-row justify-between align-center mb-3 w-11/12">
             <p className="ml-1 font-bold text-2xl"> Editar Productos</p>
           </div>
-          <table className=" justify-center align-center m-auto w-11/12 rounded">
+          <table className="bg-white justify-center align-center m-auto w-11/12 rounded">
             <thead className="">
               <tr>
                 <th className="w-1/6 font-bold text-center border border-gray-400  px-2 py-2">

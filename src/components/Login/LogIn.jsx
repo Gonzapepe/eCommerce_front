@@ -14,7 +14,7 @@ const LogIn = () => {
   // Estado local
   const [formData, setFormData] = useState({});
 
-  const { errors, token } = useSelector((state) => state.user);
+  const { errors, data } = useSelector((state) => state.user);
 
   // React Router
   const navigate = useNavigate();
@@ -25,11 +25,11 @@ const LogIn = () => {
   // Functions
 
   useEffect(() => {
-    console.log("TOKEN: ", token);
-    if (token !== null) {
+    console.log("DATA: ", data);
+    if (data !== null) {
       navigate("/");
     }
-  }, [token]);
+  }, [data]);
 
   const handleChange = ({ target: { name, value } }) => {
     setFormData((values) => {
