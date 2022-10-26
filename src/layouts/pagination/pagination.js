@@ -6,7 +6,10 @@ import PaginationItem from "@mui/material/PaginationItem";
 const MainPagination = (props) => {
   let { path, pagesCount } = props;
   const location = useLocation().search;
-  const page = location ? location : 1;
+  const page = location
+    ? parseInt(location.substring(location.indexOf("="), location.length))
+    : 1;
+  console.log("PAGE: ", page);
   return (
     <div className="general-pagination">
       <Pagination

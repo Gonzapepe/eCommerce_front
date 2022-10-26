@@ -13,7 +13,7 @@ import "./editProduct.css";
 
 const EditProduct = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const search = useLocation().search;
   // const page = parseInt(query.get("page") || "1", 10);
   const [isOpen, setIsOpen] = useState(false);
@@ -32,8 +32,8 @@ const EditProduct = () => {
   };
 
   useEffect(() => {
-    dispatch(fetchProducts());
-  }, [dispatch, fetchProducts]);
+    dispatch(fetchProducts(undefined, search));
+  }, [dispatch, search]);
 
   useEffect(() => {
     console.log("ESTADO: ", products);

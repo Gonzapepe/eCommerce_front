@@ -6,29 +6,32 @@ import {
 } from "./products.types";
 
 // Fetch all products within a category if you pass a category, otherwise just fetch all
-export const fetchProducts = (category, page) => async (dispatch) => {
-  dispatch(fetchProductsStarted());
-  console.log("CATEGORIA: ", category);
-  try {
-    if (category === undefined) {
-      const response = await axios.get(
-        `http://localhost:4000/v1/products?category=`
-      );
+export const fetchProducts =
+  (category, page = "?page=1") =>
+  async (dispatch) => {
+    dispatch(fetchProductsStarted());
+    console.log("CATEGORIA: ", category);
+    try {
+      if (category === undefined) {
+        const response = await axios.get(
+          `http://localhost:4000/v1/products${page}`
+        );
 
-      console.log("RESPUESTA DE FETCH PRODUCTS: ", response.data.data);
-      dispatch(fetchProductsSuccess(response.data.data));
-    } else {
-      const response = await axios.get(
-        `http://localhost:4000/v1/products?category=${category}&page=${page}`
-      );
+        console.log("RESPUESTA DE FETCH PRODUCTS: ", response.data.data);
+        dispatch(fetchProductsSuccess(response.data.data));
+      } else {
+        // Va a haber un problema con ${page} pero por el momento me preocupa la paginación más que nada
+        const response = await axios.get(
+          `http://localhost:4000/v1/products?category=${category}&page=${page}`
+        );
 
-      console.log("RESPUESTA DE FETCH PRODUCTS: ", response.data.data);
-      dispatch(fetchProductsSuccess(response.data.data));
+        console.log("RESPUESTA DE FETCH PRODUCTS: ", response.data.data);
+        dispatch(fetchProductsSuccess(response.data.data));
+      }
+    } catch (err) {
+      dispatch(fetchProductsFailure(err));
     }
-  } catch (err) {
-    dispatch(fetchProductsFailure(err));
-  }
-};
+  };
 
 // Fetch all products functions
 const fetchProductsStarted = () => {
