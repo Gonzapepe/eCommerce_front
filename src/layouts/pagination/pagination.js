@@ -17,8 +17,6 @@ const MainPagination = (props) => {
         count={pagesCount}
         hidePrevButton={page === 1}
         renderItem={(item) => {
-          console.log("ITEM: ", item);
-          console.log("PATH: ", path);
           return (
             <PaginationItem
               component={Link}
