@@ -48,7 +48,7 @@ const EditProduct = () => {
       <aside className="w-3/12">
         <DashboardSidebar />
       </aside>
-      <div className="m-auto flex align-center justify-between w-9/12 h-screen">
+      <div className="m-auto flex align-center justify-between w-9/12 h-screen overflow-y-scroll">
         <div className="w-full bg-gray">
           <div className="m-auto mt-3 flex flex-row justify-between align-center mb-3 w-11/12">
             <p className="ml-1 font-bold text-2xl"> Editar Productos</p>
@@ -104,10 +104,15 @@ const EditProduct = () => {
                 ))}
             </tbody>
           </table>
+          {!isLoading && (
+            <div className="mt-3 pb-5 flex m-auto align-center justify-center">
+              <Pagination
+                path="/edit/product"
+                pagesCount={products.last_page}
+              />
+            </div>
+          )}
         </div>
-        {!isLoading && (
-          <Pagination path="/edit/product" pagesCount={products.last_page} />
-        )}
       </div>
 
       {isOpen && <EditProductModal handleModal={handleModal} id={id} />}
