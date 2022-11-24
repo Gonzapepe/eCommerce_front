@@ -4,10 +4,11 @@ import { combineReducers } from "redux";
 import usersReducer from "./user/user.reducer";
 import cartReducer from "./cart/cart.reducer";
 import productReducer from "./product/product.reducer";
-import subcategoriesReducer from "./subcategory/subcategory.reducer";
+import subcategoriesReducer from "./subcategories/subcategories.reducer";
 import productsReducer from "./products/products.reducer";
 import productSubcategoriesReducer from "./productSubcategories/productSubcategories.reducer";
 import imagesReducer from "./images/images.reducer";
+import subcategoryReducer from "./subcategory/subcategory.reducer";
 
 const reducer = combineReducers({
   user: usersReducer,
@@ -17,6 +18,7 @@ const reducer = combineReducers({
   subcategories: subcategoriesReducer,
   productSubcategories: productSubcategoriesReducer,
   images: imagesReducer,
+  subcategory: subcategoryReducer,
   // cart: cartSlice,
   // register: registerSlice,
   // login: loginSlice,
