@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import DashboardSidebar from "../../layouts/DashboardSidebar/DashboardSidebar";
 import {
   Typography,
@@ -9,8 +9,23 @@ import {
   Box,
   CardActions,
 } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { addSubcategory } from "../../redux/reducers/subcategory/subcategory.actions";
 
 const AddSubcategory = () => {
+  const [subcategory, setSubcategory] = useState({});
+  const dispatch = useDispatch();
+
+  const handleChange = ({ target: { name, value } }) => {
+    setSubcategory((values) => {
+      return { ...values, [name]: value };
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(addSubcategory(subcategory));
+  };
   return (
     <div className=" h-screen flex flex-row ">
       <aside className="w-3/12">
@@ -27,10 +42,19 @@ const AddSubcategory = () => {
             Añadir Subcategoría
           </Typography>
           <CardContent>
-            <TextField variant="standard" label="Nombre" />
+            <TextField
+              variant="standard"
+              label="Nombre"
+              onChange={(e) => handleChange(e)}
+            />
           </CardContent>
           <CardActions>
-            <Button variant="contained" color="primary" size="small">
+            <Button
+              variant="contained"
+              color="primary"
+              size="small"
+              onClick={(e) => handleSubmit(e)}
+            >
               Guardar
             </Button>
             <Button variant="contained" color="error" size="small">

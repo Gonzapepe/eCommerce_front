@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchSubcategories } from "../../redux/reducers/subcategory/subcategory.actions";
+import { fetchSubcategories } from "../../redux/reducers/subcategories/subcategories.actions";
 
 const Subcategory = ({ parentCallback }) => {
   const dispatch = useDispatch();

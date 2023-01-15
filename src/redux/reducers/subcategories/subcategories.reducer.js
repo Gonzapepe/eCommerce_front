@@ -2,8 +2,6 @@ import {
   FETCH_SUBCATEGORIES_SUCCESS,
   FETCH_SUBCATEGORIES_FAILURE,
   FETCH_SUBCATEGORIES_STARTED,
-  ADD_SUBCATEGORY_SUCCESS,
-  ADD_SUBCATEGORY_FAILURE,
 } from "./subcategories.types";
 
 const initialState = {
@@ -30,11 +28,6 @@ const subcategoriesReducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
         errors: action.payload,
-      };
-
-    case ADD_SUBCATEGORY_SUCCESS:
-      return {
-        ...state,
       };
     default:
       return state;

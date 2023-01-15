@@ -17,7 +17,6 @@ const subcategoryReducer = (state = initialState, action) => {
         isLoading: false,
         subcategory: action.payload,
       };
-
     case ADD_SUBCATEGORY_FAILURE:
       return {
         ...state,
