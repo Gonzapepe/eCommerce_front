@@ -1,67 +1,46 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardMedia from "@mui/material/CardMedia";
-import Typography from "@mui/material/Typography";
-import CardContent from "@mui/material/CardContent";
 
-const Product = ({ id, path, title, price, subcategories, onClick }) => {
+const ProductCard = ({ id, path, title, price, subcategories, onClick }) => {
   const navigate = useNavigate();
   if (onClick) {
     navigate(`/product/${id}`);
   }
   return (
-    <Card
-      sx={{
-        minWidth: 300,
-        maxWidth: 300,
-        minHeight: 350,
-        maxHeight: 350,
-        overflow: "hidden",
-        flex: 1,
-        flexDirection: "column",
-        width: "100%",
-        flexWrap: "wrap",
-        alignSelf: "normal",
-        cursor: "pointer",
-        marginTop: "25px",
-      }}
-      key={id}
-    >
-      <CardMedia
-        sx={{ minHeight: 200 }}
-        component="img"
-        height="200"
-        image={`http://localhost:4000/${path}`}
+    <div className="bg-white shadow-lg rounded-lg overflow-hidden w-auto cursor-pointer">
+      <img
+        className="w-full h-48 object-cover"
+        src={`http://localhost:4000/${path}`}
         alt={title}
       />
-
-      <CardContent>
-        <Typography
-          gutterBottom
-          variant="h6"
-          component="h5"
-          sx={{
-            whiteSpace: "nowrap",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-          }}
-        >
+      <div className="p-6 flex flex-col">
+        <h2 className="text-xl font-bold mb-2 truncate max-w-[200px]">
           {" "}
           {title}{" "}
-        </Typography>
-        <Typography component="p"> $ {price} </Typography>
-        <Typography variant="body2" color="text.secondary">
+        </h2>
+        <p className="text-gray-700 text-base mb-4">
+          {" "}
           {subcategories
             ? subcategories.map((subcategory) => {
-                return <p> {subcategory.name} </p>;
+                console.log("SUBCATEGORIA: ", subcategory);
+                return (
+                  <span
+                    key={subcategory.id}
+                    className="mr-1 inline-block bg-gray-200 rounded-full px-2 py-1 text-sm text-gray-800"
+                  >
+                    {" "}
+                    {subcategory.name}{" "}
+                  </span>
+                );
               })
             : ""}
-        </Typography>
-      </CardContent>
-    </Card>
+        </p>
+        <div className="flex flex-col sm:flex-row  items-center justify-between">
+          <span className="text-gray-800 font-bold mb-2 sm:mb-0">${price}</span>
+        </div>
+      </div>
+    </div>
   );
 };
 
-export default Product;
+export default ProductCard;
