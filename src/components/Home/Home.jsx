@@ -22,7 +22,7 @@ const Home = () => {
   }, [token]);
 
   return (
-    <div className="overflow-hidden bg-slate-300">
+    <div className="max-h-screen overflow-y-auto  bg-slate-300">
       <Header user={data} />
       <Slider />
       <Categories />

@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector, connect } from "react-redux";
-import Product from "../../layouts/products/Product";
+import ProductCard from "../../layouts/products/Product";
 import Header from "../../layouts/global/Header";
 import Subcategories from "../../layouts/subcategories/Subcategories";
 import { fetchProducts } from "../../redux/reducers/products/products.actions";
 import { useNavigate } from "react-router-dom";
 import { loadUser } from "../../redux/reducers/user/user.actions";
 import { fetchProductsSubcategories } from "../../redux/reducers/productSubcategories/productSubcategories.actions";
-import Box from "@mui/material/Box";
 
 const Products = ({ fetchProducts, fetchUserData }) => {
   const dispatch = useDispatch();
@@ -66,78 +65,73 @@ const Products = ({ fetchProducts, fetchUserData }) => {
   }
 
   return (
-    <Box sx={{ width: "100%" }}>
+    <div className="max-h-screen overflow-y-auto ">
       <Header user={user} />
-      <Box sx={{ display: "flex" }}>
-        <Box sx={{ width: "20%" }}>
+      <div className="flex h-screen ">
+        {/* <Box sx={{ display: "flex" }}> */}
+        <div className="w-1/6 bg-gray-200 px-4 py-8">
           <Subcategories parentCallback={handleCallback} />
-        </Box>
-        <Box
-          sx={{
-            width: "80%",
-            margin: "auto",
-            display: "flex",
-            flexWrap: "wrap",
-            height: "100%",
-            alignContent: "space-between",
-            gap: "10px",
-          }}
-        >
-          {subcategories.length === 0 || subcategories.length === undefined
-            ? products.products &&
-              products.products.map((item) => {
-                {
-                  console.log("ITEM: ", item);
-                }
-                return (
-                  <Box onClick={() => onProductClick(item.id)}>
-                    <Product
+        </div>
+        <div className="flex-1 bg-white overflow-y-auto px-4 py-8">
+          <h1 className="text-3xl font-bold mb-8">Productos</h1>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {subcategories.length === 0 || subcategories.length === undefined
+              ? products.products &&
+                products.products.map((item) => {
+                  {
+                    console.log("ITEM: ", item);
+                  }
+                  return (
+                    <div onClick={() => onProductClick(item.id)}>
+                      <ProductCard
+                        key={item.id}
+                        path={
+                          item.images.length
+                            ? item.images[0].path
+                            : "uploads/default.png"
+                        }
+                        title={item.title}
+                        subcategories={
+                          item.subcategories.length ? item.subcategories : null
+                        }
+                        price={item.price}
+                        description={item.description}
+                      />
+                    </div>
+                    // <div>
+                    //   <h2> {item.title} </h2>
+                    //   <img
+                    //     src={`http://localhost:4000/${item.images[0].path}`}
+                    //     runat="server"
+                    //   />
+                    //   <p> {item.stock} </p>
+                    //   <p> {item.description} </p>
+                    // </div>
+                  );
+                })
+              : subcategoriesProducts?.map((item) => {
+                  console.log("IMAGENES DE: ", item.images);
+                  return (
+                    <ProductCard
                       key={item.id}
-                      path={
-                        item.images.length
-                          ? item.images[0].path
-                          : "uploads/default.png"
-                      }
                       title={item.title}
-                      subcategories={
-                        item.subcategories.length ? item.subcategories : null
-                      }
                       price={item.price}
                       description={item.description}
-                    />
-                  </Box>
-                  // <div>
-                  //   <h2> {item.title} </h2>
-                  //   <img
-                  //     src={`http://localhost:4000/${item.images[0].path}`}
-                  //     runat="server"
-                  //   />
-                  //   <p> {item.stock} </p>
-                  //   <p> {item.description} </p>
-                  // </div>
-                );
-              })
-            : subcategoriesProducts?.map((item) => {
-                console.log("IMAGENES DE: ", item.images);
-                return (
-                  <Product
-                    key={item.id}
-                    title={item.title}
-                    price={item.price}
-                    description={item.description}
-                    path={
-                      item.images !== undefined && item.images !== null
-                        ? item.images.length
-                          ? item.images[0].path
+                      path={
+                        item.images !== undefined && item.images !== null
+                          ? item.images.length
+                            ? item.images[0].path
+                            : "uploads/default.png"
                           : "uploads/default.png"
-                        : "uploads/default.png"
-                    }
-                  />
-                );
-              })}
-        </Box>
-      </Box>
-    </Box>
+                      }
+                    />
+                  );
+                })}
+          </div>
+        </div>
+        {/* </Box> */}
+      </div>
+    </div>
   );
 };
 

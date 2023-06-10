@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { fetchProduct } from "../../redux/reducers/product/product.actions";
 import { addToCart } from "../../redux/reducers/cart/cart.actions";
 import Spinner from "../Spinner/Spinner";
 import AwesomeSlider from "react-awesome-slider";
+import Header from "../../layouts/global/Header";
 import "react-awesome-slider/dist/styles.css";
 import "./productStyle.css";
 
 const Product = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { id } = useParams();
   const { product, isLoading } = useSelector((state) => state.product);
+  const { data: user } = useSelector((state) => state.user);
   const [orderQuantity, setOrderQuantity] = useState(0);
 
   useEffect(() => {
@@ -36,15 +39,29 @@ const Product = () => {
     return arr;
   };
 
+  const goBack = () => {
+    navigate(-1);
+  };
+
   if (isLoading) {
     return <Spinner />;
   }
 
   return (
     <>
-      <div className=" background h-full w-full">
+      <Header user={user} />
+
+      <div className=" bg-gray-100 h-full flex flex-col">
+        <div className=" py-2 w-10/12 mx-auto">
+          <a
+            className="cursor-pointer hover:underline"
+            onClick={() => goBack()}
+          >
+            Volver al listado
+          </a>
+        </div>
         {product && (
-          <div className="bg-white rounded overflow-hidden border-solid border-2 border-slate-300 w-10/12 mt-6 mx-auto">
+          <div className="bg-white rounded-lg overflow-hidden border border-gray-300 w-10/12 mx-auto">
             <div className="flex flex-row ">
               <div className="w-96 h-96 slider-contain ">
                 <AwesomeSlider
@@ -80,7 +97,7 @@ const Product = () => {
                   <div className="text-lg font-semibold">$ {product.price}</div>
                   <div className="font-bold text-base"> Descripción: </div>
                   <div className="text-base"> {product.description} </div>
-                  <div className=" mt-5 flex flex-row">
+                  <div className=" mt-5 flex flex-row items-center">
                     <span className="mr-2 font-semibold text-lg ">
                       Stock disponible:{" "}
                     </span>
@@ -94,7 +111,7 @@ const Product = () => {
                   </div>
                 </div>
 
-                <div className="mb-24">
+                <div className="mb-4">
                   <button className="bg-blue-600 hover:bg-blue-900 text-white font-semibold py-2 px-4 rounded">
                     {" "}
                     Comprar

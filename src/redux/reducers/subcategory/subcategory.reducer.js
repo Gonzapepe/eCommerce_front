@@ -1,32 +1,25 @@
 import {
-  FETCH_SUBCATEGORIES_SUCCESS,
-  FETCH_SUBCATEGORIES_FAILURE,
-  FETCH_SUBCATEGORIES_STARTED,
+  ADD_SUBCATEGORY_FAILURE,
+  ADD_SUBCATEGORY_SUCCESS,
 } from "./subcategory.types";
 
 const initialState = {
-  subcategories: [],
+  subcategory: {},
   isLoading: false,
   errors: [],
 };
 
-const subcategoriesReducer = (state = initialState, action) => {
+const subcategoryReducer = (state = initialState, action) => {
   switch (action.type) {
-    case FETCH_SUBCATEGORIES_STARTED:
-      return {
-        ...state,
-        isLoading: true,
-      };
-    case FETCH_SUBCATEGORIES_SUCCESS:
-      return {
-        ...state,
-        subcategories: action.payload,
-        isLoading: false,
-      };
-    case FETCH_SUBCATEGORIES_FAILURE:
+    case ADD_SUBCATEGORY_SUCCESS:
       return {
         ...state,
         isLoading: false,
+        subcategory: action.payload,
+      };
+    case ADD_SUBCATEGORY_FAILURE:
+      return {
+        ...state,
         errors: action.payload,
       };
     default:
@@ -34,4 +27,4 @@ const subcategoriesReducer = (state = initialState, action) => {
   }
 };
 
-export default subcategoriesReducer;
+export default subcategoryReducer;

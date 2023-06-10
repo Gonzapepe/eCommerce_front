@@ -25,7 +25,7 @@ const Header = ({ user }) => {
     <div className="flex justify-center w-full h-24 bg-blue-700 text-white">
       <div className=" w-full max-w-6xl h-full gap-x-6 flex flex-row justify-center items-center md:gap-x-10 lg:ml-4 lg:mr-4">
         {hidden ? null : <CartDropdown />}
-        <div className="" id="logo">
+        <div className="cursor-pointer" onClick={() => navigate("/")} id="logo">
           <h1>Logo</h1>
         </div>
 
