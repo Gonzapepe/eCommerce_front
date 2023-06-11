@@ -36,8 +36,6 @@ function App() {
   const [token, setToken] = useState(null);
   const dispatch = useDispatch();
 
-  const state = useSelector((state) => state.user);
-
   useEffect(() => {
     // Carga al usuario cada vez que renderizamos
     dispatch(loadUser());
