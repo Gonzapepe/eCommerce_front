@@ -32,7 +32,7 @@ const EditProduct = () => {
   };
 
   useEffect(() => {
-    dispatch(fetchProducts(undefined, search));
+    dispatch(fetchProducts(search));
   }, [dispatch, search]);
 
   useEffect(() => {
