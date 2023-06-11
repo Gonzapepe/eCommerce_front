@@ -1,4 +1,6 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 /* Assets */
 import mueblesPNG from "../../assets/images/muebles.png";
@@ -10,64 +12,73 @@ import pinturasPNG from "../../assets/images/pinturas.png";
 
 const categoriesImages = [
   {
-    title: "Muebles",
+    title: "muebles",
     image: mueblesPNG,
   },
   {
-    title: "Pisos",
+    title: "pisos",
     image: pisosPNG,
   },
   {
-    title: "Sanitarios",
+    title: "sanitarios",
     image: sanitariosPNG,
   },
   {
-    title: "Cocina",
+    title: "cocina",
     image: cocinaPNG,
   },
   {
-    title: "Accesorios",
+    title: "accesorios",
     image: accesoriosPNG,
   },
   {
-    title: "Pinturas",
+    title: "pinturas",
     image: pinturasPNG,
   },
 ];
 
-const Categories = () => (
-  <>
-    <div
-      id="categoriesContainer"
-      className="w-full p-2 md:my-4 m-auto md:mt-20 md:max-w-6xl"
-    >
-      <h1
-        className="uppercase text-slate-600	font-normal text-2xl my-4"
-        id="categoriesTitle"
-      >
-        Categorías
-      </h1>
+const Categories = () => {
+  const navigate = useNavigate();
 
+  const handleClick = (category) => {
+    navigate(`/products?category=${category}`);
+  };
+
+  return (
+    <>
       <div
-        id="CategoriesList"
-        className="w-full m-auto gap-4 grid grid-rows-2 md:grid-cols-2"
+        id="categoriesContainer"
+        className="w-full p-2 md:my-4 m-auto md:mt-20 md:max-w-6xl"
       >
-        {categoriesImages.map((data, index) => {
-          return (
-            <div
-              key={index}
-              className="flex w-full h-full relative justify-center items-center cursor-pointer"
-            >
-              <h3 className="uppercase text-base md:text-2xl text-white absolute z-10">
-                {data.title}
-              </h3>
-              <img src={data.image} className="w-full" alt="category pic" />
-            </div>
-          );
-        })}
+        <h1
+          className="uppercase text-slate-600	font-normal text-2xl my-4"
+          id="categoriesTitle"
+        >
+          Categorías
+        </h1>
+
+        <div
+          id="CategoriesList"
+          className="w-full m-auto gap-4 grid grid-rows-2 md:grid-cols-2"
+        >
+          {categoriesImages.map((data, index) => {
+            return (
+              <div
+                key={index}
+                className="flex w-full h-full relative justify-center items-center cursor-pointer"
+                onClick={() => handleClick(data.title)}
+              >
+                <h3 className="uppercase text-base md:text-2xl text-white absolute z-10">
+                  {data.title}
+                </h3>
+                <img src={data.image} className="w-full" alt="category pic" />
+              </div>
+            );
+          })}
+        </div>
       </div>
-    </div>
-  </>
-);
+    </>
+  );
+};
 
 export default Categories;

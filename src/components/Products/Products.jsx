@@ -4,14 +4,21 @@ import ProductCard from "../../layouts/products/Product";
 import Header from "../../layouts/global/Header";
 import Subcategories from "../../layouts/subcategories/Subcategories";
 import { fetchProducts } from "../../redux/reducers/products/products.actions";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import { loadUser } from "../../redux/reducers/user/user.actions";
 import { fetchProductsSubcategories } from "../../redux/reducers/productSubcategories/productSubcategories.actions";
+import Pagination from "../../layouts/pagination/pagination";
 
 const Products = ({ fetchProducts, fetchUserData }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const search = useLocation().search;
   const { products, isLoading } = useSelector((state) => state.products);
+  // Receive category name
+  let [searchParams, setSearchParams] = useSearchParams();
+  const category = searchParams.get("category");
+
+  // Products taken from chosen subcategories
   const { products: subcategoriesProducts } = useSelector(
     (state) => state.productSubcategories
   );
@@ -42,8 +49,10 @@ const Products = ({ fetchProducts, fetchUserData }) => {
     dispatch(fetchProductsSubcategories(subcategories));
   }, [dispatch, subcategories]);
 
+  console.log("USE LOCATION: ", search);
+
   useEffect(() => {
-    fetchProducts();
+    fetchProducts(search);
     fetchUserData();
   }, [dispatch]);
 
@@ -68,12 +77,14 @@ const Products = ({ fetchProducts, fetchUserData }) => {
     <div className="max-h-screen overflow-y-auto ">
       <Header user={user} />
       <div className="flex h-screen ">
-        {/* <Box sx={{ display: "flex" }}> */}
         <div className="w-1/6 bg-gray-200 px-4 py-8">
           <Subcategories parentCallback={handleCallback} />
         </div>
         <div className="flex-1 bg-white overflow-y-auto px-4 py-8">
-          <h1 className="text-3xl font-bold mb-8">Productos</h1>
+          <h1 className="text-3xl font-bold mb-8">
+            {" "}
+            {category.charAt().toUpperCase() + category.slice(1)}{" "}
+          </h1>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {subcategories.length === 0 || subcategories.length === undefined
               ? products.products &&
@@ -128,8 +139,12 @@ const Products = ({ fetchProducts, fetchUserData }) => {
                   );
                 })}
           </div>
+          {!isLoading && (
+            <div className="mt-3 pb-5 flex m-auto align-center justify-center">
+              <Pagination path="/products" pagesCount={products.last_page} />
+            </div>
+          )}
         </div>
-        {/* </Box> */}
       </div>
     </div>
   );
@@ -137,7 +152,7 @@ const Products = ({ fetchProducts, fetchUserData }) => {
 
 // Aprovechamos para hacerlo mas limpio
 const mapDispatchToProps = (dispatch) => ({
-  fetchProducts: () => dispatch(fetchProducts()),
+  fetchProducts: (search) => dispatch(fetchProducts(search)),
   fetchUserData: () => dispatch(loadUser()),
 });
 
