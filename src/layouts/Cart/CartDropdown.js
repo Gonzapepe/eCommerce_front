@@ -14,8 +14,11 @@ const CartDropdown = () => {
   const token = Cookies.get("token");
   const { cartItems } = useSelector((state) => state.cart);
 
-  useEffect(async () => {
-    dispatch(fetchCartProducts());
+  useEffect(() => {
+    const fetchData = async () => {
+      await dispatch(fetchCartProducts());
+    };
+    fetchData();
   }, [dispatch, token]);
 
   return (

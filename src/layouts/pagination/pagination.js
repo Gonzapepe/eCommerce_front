@@ -1,11 +1,11 @@
-import { Link, useLocation, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import * as React from "react";
 import Pagination from "@mui/material/Pagination";
 import PaginationItem from "@mui/material/PaginationItem";
 
 const MainPagination = (props) => {
   let { path, pagesCount } = props;
-  let [searchParams, setSearchParams] = useSearchParams();
+  let [searchParams] = useSearchParams();
   const location = searchParams.get("page");
   const page = parseInt(location ? location : 1);
   console.log("SEARCH PARAMS: ", searchParams.get("page"));

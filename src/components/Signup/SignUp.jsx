@@ -29,7 +29,7 @@ const SignUp = () => {
     if (userCreated !== false) {
       navigate("/log-in");
     }
-  }, [userCreated]);
+  }, [userCreated, navigate]);
 
   const handleChange = ({ target: { name, value } }) => {
     setFormData((values) => {

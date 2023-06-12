@@ -1,5 +1,4 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { ReactComponent as Edit } from "../../assets/icons/Edit.svg";
 import { ReactComponent as Plus } from "../../assets/icons/Plus.svg";

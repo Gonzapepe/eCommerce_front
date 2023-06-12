@@ -1,12 +1,12 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 // React Router
-import { Routes, Route, Link, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 // Redux
 import { useDispatch, useSelector } from "react-redux";
-import { setToken } from "./redux/reducers/login";
-import user, { getUserData } from "./redux/reducers/user";
+// import { setToken } from "./redux/reducers/login";
+// import user, { getUserData } from "./redux/reducers/user";
 import { loadUser } from "./redux/reducers/user/user.actions";
 
 /* Components */
@@ -33,10 +33,8 @@ import "./index.css";
 
 function App() {
   // const [auth, setAuth] = useState(false);
-  const [token, setToken] = useState(null);
+  // const [token, setToken] = useState(null);
   const dispatch = useDispatch();
-
-  const state = useSelector((state) => state.user);
 
   useEffect(() => {
     // Carga al usuario cada vez que renderizamos

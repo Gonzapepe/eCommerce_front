@@ -21,7 +21,7 @@ export default function Feedback(props) {
         setStatus(response.Status);
       })
       .catch((err) => console.log(err));
-  }, [auth]);
+  }, [search]);
 
   return (
     <div>

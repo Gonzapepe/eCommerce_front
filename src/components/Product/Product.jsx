@@ -53,12 +53,12 @@ const Product = () => {
 
       <div className=" bg-gray-100 h-full flex flex-col">
         <div className=" py-2 w-10/12 mx-auto">
-          <a
+          <button
             className="cursor-pointer hover:underline"
             onClick={() => goBack()}
           >
             Volver al listado
-          </a>
+          </button>
         </div>
         {product && (
           <div className="bg-white rounded-lg overflow-hidden border border-gray-300 w-10/12 mx-auto">

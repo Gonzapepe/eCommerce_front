@@ -38,7 +38,7 @@ const EditProductModal = ({ id, handleModal }) => {
       console.log("ADENTRO DEL IF FORMDATA: ", formData);
     }
     console.log("AFUERA DEL IF: ", formData);
-  }, [product]);
+  }, [product, formData, id, images]);
 
   const onFileChange = (files) => {
     console.log(files);

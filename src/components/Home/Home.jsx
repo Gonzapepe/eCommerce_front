@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-import { getUserData } from "../../redux/reducers/user";
+// import { getUserData } from "../../redux/reducers/user";
 import Cookies from "js-cookie";
 import Slider from "../../layouts/home/Slider";
 import Header from "../../layouts/global/Header";
@@ -13,13 +13,13 @@ import { loadUser } from "../../redux/reducers/user/user.actions";
 const Home = () => {
   const token = Cookies.get("token");
   const dispatch = useDispatch();
-  const { data, errors } = useSelector((state) => state.user);
+  const { data } = useSelector((state) => state.user);
 
   useEffect(() => {
     if (token !== null) {
       dispatch(loadUser());
     }
-  }, [token]);
+  }, [dispatch, token]);
 
   return (
     <div className="max-h-screen overflow-y-auto  bg-slate-300">

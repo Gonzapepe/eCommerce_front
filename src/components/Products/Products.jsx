@@ -15,7 +15,7 @@ const Products = ({ fetchProducts, fetchUserData }) => {
   const search = useLocation().search;
   const { products, isLoading } = useSelector((state) => state.products);
   // Receive category name
-  let [searchParams, setSearchParams] = useSearchParams();
+  let [searchParams] = useSearchParams();
   const category = searchParams.get("category");
 
   // Products taken from chosen subcategories
@@ -54,7 +54,7 @@ const Products = ({ fetchProducts, fetchUserData }) => {
   useEffect(() => {
     fetchProducts(search);
     fetchUserData();
-  }, [dispatch]);
+  }, [dispatch, fetchProducts, fetchUserData, search]);
 
   // Dirije al producto hacia la pagina del producto
   const onProductClick = (id) => {
@@ -89,9 +89,6 @@ const Products = ({ fetchProducts, fetchUserData }) => {
             {subcategories.length === 0 || subcategories.length === undefined
               ? products.products &&
                 products.products.map((item) => {
-                  {
-                    console.log("ITEM: ", item);
-                  }
                   return (
                     <div onClick={() => onProductClick(item.id)}>
                       <ProductCard

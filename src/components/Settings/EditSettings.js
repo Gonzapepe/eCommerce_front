@@ -2,13 +2,12 @@ import React, { useState, useEffect } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 import Spinner from "../Spinner/Spinner";
 import { editUser } from "../../redux/reducers/user/user.actions";
 
 const EditSettings = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { data, isLoading } = useSelector((state) => state.user);
   const [formData, setFormData] = useState({});
 
@@ -27,7 +26,7 @@ const EditSettings = () => {
         phone: data.phone,
       });
     }
-  }, [data]);
+  }, [data, formData]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

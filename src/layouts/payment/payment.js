@@ -46,7 +46,7 @@ export default function Checkout() {
         console.log("RESPUESTA: ", response.data);
         setPreferenceId(response.data);
       });
-  }, [auth]);
+  }, []);
 
   useEffect(() => {
     if (mp) {
@@ -61,7 +61,7 @@ export default function Checkout() {
         },
       });
     }
-  }, [preferenceId]);
+  }, [preferenceId, mp]);
   console.log(preferenceId);
 
   return (

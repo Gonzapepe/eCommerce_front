@@ -2,6 +2,7 @@ import {
   ADD_SUBCATEGORY_FAILURE,
   ADD_SUBCATEGORY_SUCCESS,
 } from "./subcategory.types";
+import axios from 'axios'
 
 export const addSubcategory = (subcategory) => async (dispatch) => {
   const token = localStorage.getItem("token");

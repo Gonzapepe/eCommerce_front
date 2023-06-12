@@ -29,7 +29,7 @@ const LogIn = () => {
     if (data !== null) {
       navigate("/");
     }
-  }, [data]);
+  }, [data, navigate]);
 
   const handleChange = ({ target: { name, value } }) => {
     setFormData((values) => {
@@ -79,6 +79,7 @@ const LogIn = () => {
                         <div className="text-red-600"> {error.email} </div>
                       );
                     }
+                    return null;
                   })
                 : null}
             </div>
@@ -115,6 +116,7 @@ const LogIn = () => {
                         </div>
                       );
                     }
+                    return null;
                   })
                 : null}
               {errors.errors
