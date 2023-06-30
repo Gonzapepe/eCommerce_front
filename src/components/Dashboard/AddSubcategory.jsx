@@ -78,10 +78,19 @@ const AddSubcategory = () => {
               <TextField
                 variant="standard"
                 label="Nombre"
+                name="name"
                 onChange={(e) => handleChange(e)}
               />
             </CardContent>
             <CardActions>
+              <Button
+                variant="contained"
+                color="error"
+                size="small"
+                onClick={(e) => handleCancel(e)}
+              >
+                Cancelar
+              </Button>
               <Button
                 variant="contained"
                 color="primary"
@@ -89,14 +98,6 @@ const AddSubcategory = () => {
                 type="submit"
               >
                 Guardar
-              </Button>
-              <Button
-                variant="contained"
-                color="error"
-                size="small"
-                onClick={(e) => handleCancel(e)}
-              >
-                Limpiar
               </Button>
             </CardActions>
           </Card>
