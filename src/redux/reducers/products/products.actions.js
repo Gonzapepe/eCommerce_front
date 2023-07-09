@@ -20,7 +20,7 @@ export const fetchProducts = (query) => async (dispatch) => {
     } else {
       // Va a haber un problema con ${page} pero por el momento me preocupa la paginación más que nada
       const response = await axios.get(
-        `http://localhost:4000/v1/products?${query}`
+        `http://localhost:4000/v1/products${query}`
       );
 
       console.log("RESPUESTA DE FETCH PRODUCTS: ", response.data.data);

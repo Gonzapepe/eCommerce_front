@@ -27,8 +27,8 @@ const EditSubcategory = () => {
   };
 
   useEffect(() => {
-    dispatch(fetchSubcategories());
-  }, [dispatch]);
+    dispatch(fetchSubcategories(search));
+  }, [dispatch, search]);
 
   if (isLoading) {
     return <Spinner />;
@@ -86,14 +86,14 @@ const EditSubcategory = () => {
                 ))}
             </tbody>
           </table>
-          {/* {!isLoading && (
+          {!isLoading && (
             <div className="mt-3 pb-5 flex m-auto align-center justify-center">
               <Pagination
-                path="/edit/product"
-                pagesCount={products.last_page}
+                path="/edit/subcategory"
+                pagesCount={subcategories.last_page}
               />
             </div>
-          )} */}
+          )}
         </div>
       </div>
 

@@ -5,12 +5,23 @@ import {
 } from "./subcategories.types";
 import axios from "axios";
 
-export const fetchSubcategories = () => async (dispatch) => {
+export const fetchSubcategories = (query) => async (dispatch) => {
   dispatch(fetchSubcategoriesStarted());
+  console.log("QUERY: ", query);
   try {
-    const response = await axios.get("http://localhost:4000/v1/subcategory");
-    console.log("RESPUESTA FETCH SUBCATEGORIES: ", response.data.data);
-    dispatch(fetchSubcategoriesSuccess(response.data.data));
+    if (query === undefined) {
+      const response = await axios.get(
+        "http://localhost:4000/v1/subcategory?page=1"
+      );
+      console.log("RESPUESTA FETCH SUBCATEGORIES: ", response.data.data);
+      dispatch(fetchSubcategoriesSuccess(response.data.data));
+    } else {
+      const response = await axios.get(
+        `http://localhost:4000/v1/subcategory${query}`
+      );
+      console.log("RESPUESTA FETCH SUBCATEGORIES: ", response.data.data);
+      dispatch(fetchSubcategoriesSuccess(response.data.data));
+    }
   } catch (err) {
     dispatch(fetchSubcategoriesFailure(err));
   }
