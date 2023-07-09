@@ -9,6 +9,7 @@ export const fetchSubcategories = () => async (dispatch) => {
   dispatch(fetchSubcategoriesStarted());
   try {
     const response = await axios.get("http://localhost:4000/v1/subcategory");
+    console.log("RESPUESTA FETCH SUBCATEGORIES: ", response.data.data);
     dispatch(fetchSubcategoriesSuccess(response.data.data));
   } catch (err) {
     dispatch(fetchSubcategoriesFailure(err));

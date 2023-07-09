@@ -7,6 +7,7 @@ import Spinner from "../Spinner/Spinner";
 import { ReactComponent as Edit } from "../../assets/icons/Edit.svg";
 import { ReactComponent as Trash } from "../../assets/icons/trash.svg";
 import Pagination from "../../layouts/pagination/pagination";
+import EditSubcategoryModal from "../../layouts/EditSubcategoryModal/EditSubcategoryModal";
 
 const EditSubcategory = () => {
   const dispatch = useDispatch();
@@ -26,12 +27,8 @@ const EditSubcategory = () => {
   };
 
   useEffect(() => {
-    dispatch(fetchSubcategories(search));
-  }, [dispatch, search]);
-
-  useEffect(() => {
-    console.log("SUBCATEGORIAS: ", subcategories);
-  }, [subcategories]);
+    dispatch(fetchSubcategories());
+  }, [dispatch]);
 
   if (isLoading) {
     return <Spinner />;
@@ -62,28 +59,22 @@ const EditSubcategory = () => {
               </tr>
             </thead>
             <tbody>
-              {/* {subcategories &&
-                products.products.map((product) => (
+              {subcategories.subcategories &&
+                subcategories.subcategories.map((subcategory) => (
                   <tr
                     className="border border-gray-400 border-b h-10"
-                    key={product.id}
+                    key={subcategory.id}
                   >
-                    {product.subcategories.forEach((subcategory) => {
-                      subcategories.push(subcategory.name);
-                    })}
                     <td className="text-center border-gray-400 ">
-                      {product.category}
+                      {subcategory.category}
                     </td>
                     <td className="text-center border-gray-400 ">
-                      {subcategories.join(",")}
-                    </td>
-                    <td className="text-center border-gray-400 ">
-                      {product.title}
+                      {subcategory.name}
                     </td>
                     <td className="flex  justify-center items-center h-20">
                       <button
                         className="rounded bg-blue-500 p-2 mr-2 hover:bg-blue-500/50 "
-                        onClick={() => handleModal(product.id)}
+                        onClick={() => handleModal(subcategory.id)}
                       >
                         <Edit className="white" width="14" height="14" />
                       </button>
@@ -92,7 +83,7 @@ const EditSubcategory = () => {
                       </button>
                     </td>
                   </tr>
-                ))} */}
+                ))}
             </tbody>
           </table>
           {/* {!isLoading && (
@@ -106,7 +97,7 @@ const EditSubcategory = () => {
         </div>
       </div>
 
-      {isOpen && <EditProductModal handleModal={handleModal} id={id} />}
+      {isOpen && <EditSubcategoryModal handleModal={handleModal} id={id} />}
     </div>
   );
 };
