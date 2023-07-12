@@ -15,7 +15,9 @@ export const updateProduct = (product) => async (dispatch) => {
   try {
     // sends data as multipart/form-data instead of application/json
     const formData = new FormData();
-    formData.append("image", product.image);
+    if (product.images) {
+      formData.append("image", product.images);
+    }
     formData.append("title", product.title);
     formData.append("category", product.category);
     formData.append("price", product.price);
@@ -27,9 +29,9 @@ export const updateProduct = (product) => async (dispatch) => {
       formData,
       { headers: { Authorization: token } }
     );
-
+    console.log("ASDASDOIHASHODSADASIODIASO");
     console.log("RESPUESTA DEL UPDATE PRODUCT", response.data);
-    dispatch(updateProductSuccess(response.data));
+    dispatch(updateProductSuccess(response.data.data));
   } catch (err) {
     console.log("ERROR REQUEST: ", err.request);
     console.log("ERROR RESPONSE: ", err.response);
@@ -43,7 +45,7 @@ export const addProduct = (product) => async (dispatch) => {
   try {
     // Sends data as multipart/form-data instead of application/json
     const formData = new FormData();
-    formData.append("image", product.image);
+    formData.append("image", product.images);
     formData.append("title", product.title);
     formData.append("category", product.category);
     formData.append("price", product.price);

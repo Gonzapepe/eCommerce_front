@@ -21,14 +21,13 @@ const EditProduct = () => {
   const { products, isLoading } = useSelector((state) => state.products);
   let subcategories = [];
 
-  console.log("USE LOCATION: ", search);
-
-  const handleModal = (id) => {
+  const handleModal = async (id) => {
     setIsOpen(!isOpen);
     if (id === undefined) {
       id = null;
     }
     setId(id);
+    await dispatch(fetchProducts(search));
   };
 
   useEffect(() => {

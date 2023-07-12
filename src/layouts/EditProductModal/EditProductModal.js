@@ -4,17 +4,30 @@ import {
   fetchProduct,
   updateProduct,
 } from "../../redux/reducers/product/product.actions";
-import { fetchImages } from "../../redux/reducers/images/images.actions";
-import { deleteImage } from "../../redux/reducers/images/images.actions";
+
+import {
+  fetchImages,
+  deleteImage,
+} from "../../redux/reducers/images/images.actions";
+import { fetchProducts } from "../../redux/reducers/products/products.actions";
+import { useLocation } from "react-router-dom";
 import FileInput from "../../layouts/FileInput/FileInput";
 import Spinner from "../../components/Spinner/Spinner";
 
 const EditProductModal = ({ id, handleModal }) => {
-  const [formData, setFormData] = useState({});
-  const { product } = useSelector((state) => state.product);
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    stock: 0,
+    price: 0,
+    category: "",
+    images: null,
+  });
+  const [success, setSuccess] = useState(false);
+  const { product, isLoading } = useSelector((state) => state.product);
   const { images } = useSelector((state) => state.images);
-  const isLoading = useSelector((state) => state.product.isLoading);
   const dispatch = useDispatch();
+  const search = useLocation().search;
 
   useEffect(() => {
     dispatch(fetchProduct(id));
@@ -24,21 +37,17 @@ const EditProductModal = ({ id, handleModal }) => {
   useEffect(() => {
     console.log("PRODUCTO TITULO: ", product);
     if (product) {
-      if (formData.length === undefined || formData.length === null) {
-        setFormData({
-          id: id,
-          title: product.title,
-          description: product.description,
-          stock: product.stock,
-          price: product.price,
-          category: product.category,
-          images: images,
-        });
-      }
-      console.log("ADENTRO DEL IF FORMDATA: ", formData);
+      setFormData({
+        id: id,
+        title: product.title,
+        description: product.description,
+        stock: product.stock,
+        price: product.price,
+        category: product.category,
+        images: images,
+      });
     }
-    console.log("AFUERA DEL IF: ", formData);
-  }, [product, formData, id, images]);
+  }, [product, id, images]);
 
   const onFileChange = (files) => {
     console.log(files);
@@ -53,16 +62,23 @@ const EditProductModal = ({ id, handleModal }) => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(updateProduct(formData));
-    handleModal();
+    await dispatch(updateProduct(formData));
+    setSuccess(true);
   };
 
   const removeImage = (e, id) => {
     e.preventDefault();
     dispatch(deleteImage(product.id, id));
   };
+
+  useEffect(() => {
+    if (success) {
+      dispatch(fetchProducts(search));
+      handleModal();
+    }
+  }, [dispatch, success, search, handleModal]);
 
   if (isLoading) {
     return (
@@ -170,7 +186,7 @@ const EditProductModal = ({ id, handleModal }) => {
 
           {/* Añadir imágenes */}
           <div className="mt-5">
-            {product.images && product.images.length > 0 ? (
+            {product && product.images && product.images.length > 0 ? (
               <div className="flex flex-col space-y-2">
                 <span className="font-semibold text-lg"> Imágenes </span>
                 <div className="flex flex-row justify-between items-center">
@@ -198,7 +214,9 @@ const EditProductModal = ({ id, handleModal }) => {
               </div>
             ) : (
               <p className="text-black font-semibold ">
-                éste producto no tiene imágenes{" "}
+                {product && product.images && product.images.length === 0
+                  ? "éste producto no tiene imágenes"
+                  : "Loading..."}
               </p>
             )}
           </div>

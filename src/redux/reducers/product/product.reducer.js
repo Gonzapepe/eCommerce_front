@@ -27,6 +27,7 @@ const productsReducer = (state = initialState, action) => {
         product: action.payload,
       };
     case FETCH_PRODUCT_FAILURE:
+    case ADD_PRODUCT_FAILURE:
     case UPDATE_PRODUCT_FAILURE:
       return {
         ...state,
@@ -39,12 +40,6 @@ const productsReducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
         product: action.payload,
-      };
-    case ADD_PRODUCT_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        errors: action.payload,
       };
     default:
       return state;
