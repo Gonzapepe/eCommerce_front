@@ -19,7 +19,7 @@ let initialState = {
   userCreated: false,
 };
 
-const usersReducer = (state = initialState, action) => {
+const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case USER_LOADING:
       return {
@@ -85,4 +85,4 @@ const usersReducer = (state = initialState, action) => {
   }
 };
 
-export default usersReducer;
+export default userReducer;

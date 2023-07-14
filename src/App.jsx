@@ -27,6 +27,7 @@ import AddProduct from "./components/Dashboard/AddProduct";
 import AddSubcategory from "./components/Dashboard/AddSubcategory";
 import EditProduct from "./components/Dashboard/EditProduct";
 import EditSubcategory from "./components/Dashboard/EditSubcategory";
+import EditUser from "./components/Dashboard/EditUsers";
 import "./index.css";
 
 /* Components */
@@ -102,6 +103,7 @@ function App() {
         {generateAdminRoute("/dashboard/edit/product/*", <EditProduct />)}
         {generateAdminRoute("/dashboard/add/subcategory", <AddSubcategory />)}
         {generateAdminRoute("/dashboard/edit/subcategory", <EditSubcategory />)}
+        {generateAdminRoute("/dashboard/edit/user", <EditUser />)}
 
         <Route path="*" element={<NotFound />} />
       </Routes>

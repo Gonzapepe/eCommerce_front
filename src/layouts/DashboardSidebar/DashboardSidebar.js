@@ -32,6 +32,11 @@ const DashboardSidebar = () => {
             <Edit className="mr-1" height="14" width="14" />
             <Link to="/dashboard/edit/subcategory">Editar subcategorías</Link>
           </div>
+          {/* Usuarios */}
+          <div className="flex flex-row border-b border-black border-solid font-semibold text-black items-center text-left p-2">
+            <Edit className="mr-1" height="14" width="14" />
+            <Link to="/dashboard/edit/user">Usuarios</Link>
+          </div>
         </div>
       </div>
     </div>

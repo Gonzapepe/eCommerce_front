@@ -1,7 +1,7 @@
 import { combineReducers } from "redux";
 
 // import userSlice from "./user";
-import usersReducer from "./user/user.reducer";
+import userReducer from "./user/user.reducer";
 import cartReducer from "./cart/cart.reducer";
 import productReducer from "./product/product.reducer";
 import subcategoriesReducer from "./subcategories/subcategories.reducer";
@@ -9,9 +9,11 @@ import productsReducer from "./products/products.reducer";
 import productSubcategoriesReducer from "./productSubcategories/productSubcategories.reducer";
 import imagesReducer from "./images/images.reducer";
 import subcategoryReducer from "./subcategory/subcategory.reducer";
+import usersReducer from "./users/users.reducer";
 
 const reducer = combineReducers({
-  user: usersReducer,
+  user: userReducer,
+  users: usersReducer,
   cart: cartReducer,
   product: productReducer,
   products: productsReducer,
